@@ -109,8 +109,11 @@ export default function Navbar({
   const timeStr = useSyncExternalStore(subscribeClock, getClientTime, getServerTime);
 
   const isLight = theme === "light";
-  const shouldShowHome = showHome !== undefined ? showHome : active !== "home";
-  const items = NAV_ITEMS.filter((item) => (item.id === "home" ? shouldShowHome : true));
+  const shouldShowItem = (item) => {
+    if (item.id === "home") return showHome !== undefined ? showHome : active !== "home";
+    return item.id !== active;
+  };
+  const items = NAV_ITEMS.filter(shouldShowItem);
 
   const brandColor = isLight
     ? "text-neutral-900 hover:text-neutral-600"

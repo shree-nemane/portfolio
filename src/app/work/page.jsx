@@ -42,25 +42,25 @@ export default function WorkPage() {
       {/* Main Editorial Content Container */}
       <div className="w-full mx-auto px-5 sm:px-12 lg:px-16 py-8 sm:py-16 mt-16 sm:mt-24 md:mt-36 flex flex-col gap-10 sm:gap-20">
         {/* Intro / Header identity */}
-        <section className="flex flex-col gap-10">
+        <section className="flex flex-col gap-10 items-end-safe">
           <div className="flex flex-col gap-1">
             <p className="text-xl sm:text-3xl md:text-4xl text-white font-semibold ">
               <span className="block overflow-hidden">
                 <span className="inline-block animate-mask-slide-up [animation-delay:80ms]">
-                  Always find something to confuse me ^_^
+                  ^_^ Always find something to confuse me 
                 </span>
               </span>
             </p>
           </div>
 
           {/* About narrative */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-end-safe">
             <h2 className="text-xs font-semibold tracking-widest text-neutral-400 uppercase">
               <span className="text-white text-lg">&#91; </span>
               <ScrambleText text="Work" />
               <span className="text-white text-lg"> &#93;</span>
             </h2>
-            <p className="text-sm sm:text-base leading-relaxed text-neutral-300 font-normal max-w-xl">
+            <p className="text-sm sm:text-base text-end leading-relaxed text-neutral-300 font-normal max-w-xl">
               I specialize in component-driven user interfaces, brand design systems, and tactile web experiences. Combining minimalist ergonomics with computational design, I create thoughtful digital flagship platforms and design tools for forward-thinking products and ateliers.
             </p>
           </div>
@@ -178,7 +178,8 @@ export default function WorkPage() {
                 label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
-                <ParallaxCard
+                <div className="flex p-2 border border-white/20">
+                  <ParallaxCard
                   imageSrc={resolveAsset(project.logo || project.image)}
                   imageAlt={project.alt || project.shortTitle || project.title}
                   className={`aspect-3/2 w-full border border-white/10 ${project.cardBg || "bg-white"}`}
@@ -199,6 +200,8 @@ export default function WorkPage() {
                     </span>
                   </div>
                 </ParallaxCard>
+                </div>
+                
               </TransitionLink>
             ))}
           </div>
@@ -228,10 +231,11 @@ export default function WorkPage() {
                 label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
+                <div className="flex p-2 border border-white/20">
                 <ParallaxCard
                   imageSrc={resolveAsset(project.logo || project.image)}
                   imageAlt={project.alt || project.shortTitle || project.title}
-                  className={`aspect-3/2 w-full  border border-white/10 ${project.cardBg || "bg-neutral-900"}`}
+                  className={`aspect-3/2 w-full border border-white/10 ${project.cardBg || "bg-neutral-900"}`}
                   imgClassName="object-cover"
                 >
                   {/* Bottom Box Overlay - visible only on hover */}
@@ -249,6 +253,7 @@ export default function WorkPage() {
                     </span>
                   </div>
                 </ParallaxCard>
+                </div>
               </TransitionLink>
             ))}
           </div>

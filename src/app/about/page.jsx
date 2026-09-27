@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useSyncExternalStore, useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { TransitionLink } from "../../components/PageTransition";
 import ScrambleText from "../../components/ScrambleText";
@@ -53,6 +54,7 @@ export default function AboutPage() {
   const timeStr = useSyncExternalStore(subscribeClock, getClientTime, getServerTime);
   const containerRef = useRef(null);
   const leftScrollRef = useRef(null);
+  const section2Ref = useRef(null);
   const scrollPosRef = useRef({ current: 0, target: 0 });
   const rafIdRef = useRef(null);
   const startAnimationRef = useRef(null);
@@ -62,7 +64,7 @@ export default function AboutPage() {
 
   // Inertial smooth scroll coordinator (RAF + LERP interpolation):
   // Eliminates harsh notch jumps and abruptly stopping at boundaries.
-  // 1. Unified 1D virtual scroll track: Section 1 horizontal -> Section 2 vertical -> Forward
+  // 1. Unified 1D virtual scroll track: Horizontal -> Section 2 vertical -> Forward
   // 2. Linear interpolation (0.09 factor) for buttery ease-out deceleration
   // 3. Velocity dampening (0.65 factor) to prevent rushing through content
   useEffect(() => {
@@ -76,22 +78,23 @@ export default function AboutPage() {
 
     const applyScroll = (pos) => {
       const leftScroll = leftScrollRef.current;
-      const sectionWidth = el.clientWidth;
+      const section2El = section2Ref.current;
+      const startOffset = section2El ? section2El.offsetLeft : el.clientWidth;
       const maxScrollY = leftScroll
         ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
         : 0;
 
-      if (pos <= sectionWidth) {
-        // Section 1 -> transitioning to Section 2
+      if (pos <= startOffset) {
+        // Sections before Section 2 -> horizontal scroll
         el.scrollLeft = pos;
         if (leftScroll) leftScroll.scrollTop = 0;
-      } else if (pos <= sectionWidth + maxScrollY) {
+      } else if (pos <= startOffset + maxScrollY) {
         // Inside Section 2 -> vertical glide through left column
-        el.scrollLeft = sectionWidth;
-        if (leftScroll) leftScroll.scrollTop = pos - sectionWidth;
+        el.scrollLeft = startOffset;
+        if (leftScroll) leftScroll.scrollTop = pos - startOffset;
       } else {
         // Past Section 2 -> continue horizontally
-        el.scrollLeft = sectionWidth + (pos - (sectionWidth + maxScrollY));
+        el.scrollLeft = startOffset + (pos - (startOffset + maxScrollY));
         if (leftScroll) leftScroll.scrollTop = maxScrollY;
       }
     };
@@ -142,12 +145,11 @@ export default function AboutPage() {
 
       const delta = baseDelta * 0.8;
 
-      const sectionWidth = el.clientWidth;
       const maxScrollY = leftScroll
         ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
         : 0;
-      const extraHorizontal = Math.max(0, el.scrollWidth - el.clientWidth - sectionWidth);
-      const totalDistance = sectionWidth + maxScrollY + extraHorizontal;
+      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
+      const totalDistance = maxScrollX + maxScrollY;
 
       scrollPosRef.current.target = Math.max(
         0,
@@ -159,12 +161,11 @@ export default function AboutPage() {
 
     const onKeyDown = (e) => {
       const leftScroll = leftScrollRef.current;
-      const sectionWidth = el.clientWidth;
       const maxScrollY = leftScroll
         ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
         : 0;
-      const extraHorizontal = Math.max(0, el.scrollWidth - el.clientWidth - sectionWidth);
-      const totalDistance = sectionWidth + maxScrollY + extraHorizontal;
+      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
+      const totalDistance = maxScrollX + maxScrollY;
 
       if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
@@ -181,12 +182,11 @@ export default function AboutPage() {
     };
 
     const onResize = () => {
-      const sectionWidth = el.clientWidth;
       const maxScrollY = leftScrollRef.current
         ? Math.max(0, leftScrollRef.current.scrollHeight - leftScrollRef.current.clientHeight)
         : 0;
-      const extraHorizontal = Math.max(0, el.scrollWidth - el.clientWidth - sectionWidth);
-      const totalDistance = sectionWidth + maxScrollY + extraHorizontal;
+      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
+      const totalDistance = maxScrollX + maxScrollY;
 
       scrollPosRef.current.target = Math.min(scrollPosRef.current.target, totalDistance);
       scrollPosRef.current.current = Math.min(scrollPosRef.current.current, totalDistance);
@@ -369,7 +369,7 @@ export default function AboutPage() {
       {/* ================= HORIZONTAL CONTINUOUS SCROLL CONTAINER ================= */}
       <div
         ref={containerRef}
-        className="h-screen w-screen overflow-x-auto overflow-y-hidden flex flex-row select-none no-scrollbar"
+        className="relative h-screen w-screen overflow-x-auto overflow-y-hidden flex flex-row select-none no-scrollbar"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* ----------------- SECTION 1: HERO (01) ----------------- */}
@@ -434,7 +434,7 @@ export default function AboutPage() {
           <div className="w-full flex items-center justify-between z-20 pt-4">
             <div className="w-24">
               <ScrambleText
-                text="LIGHTS OFF"
+                text="Keep going"
                 className="text-[10px] sm:text-[11px] font-mono tracking-widest text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors"
               />
             </div>
@@ -456,8 +456,20 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className="relative h-screen w-screen shrink-0 flex flex-col justify-between overflow-hidden">
+          <Image
+            src="/intro-book.webp"
+            alt="Hero Image"
+            width={1920} height={1080}
+            className="w-full h-full object-cover"
+          />
+        </section>
+
         {/* ----------------- SECTION 2: THINGS THAT DON'T MAKE SENSE ----------------- */}
-        <section className="relative h-screen w-screen shrink-0 border-l border-neutral-200 bg-white text-black p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden">
+        <section
+          ref={section2Ref}
+          className="relative h-screen w-screen shrink-0 border-l border-neutral-200 bg-white text-black p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden"
+        >
           {/* Top Bar: Name + Stacked Index/Approach */}
           <div className="pt-16 sm:pt-28 lg:pt-40 flex-1 min-h-0 flex flex-col">
             <div className="w-full flex items-start justify-between z-20 shrink-0 pb-4 ">
@@ -496,7 +508,7 @@ export default function AboutPage() {
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
                       <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
-                        Modern Complexity
+                        Complexity of Thinking
                       </h3>
                       <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
                         We ship megabytes of JavaScript to render static text that basic HTML solved decades ago. Modern web engineering has developed an obsession with architectural ceremonies—wrapping simple concepts in recursive layers of indirection under the guise of future-proofing, before validating if anyone actually needs it.
@@ -536,14 +548,12 @@ export default function AboutPage() {
                 </div>
               </div>
 
-
             </div>
           </div>
           {/* Right Part: Stagnant Title (Desktop) */}
           <div className="absolute top-10 right-10 hidden lg:flex w-[44%] shrink-0 justify-end text-right select-none pointer-events-none self-start">
             <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] xl:text-[7.5rem] font-medium tracking-tight text-black leading-[0.92]">
-              Make<br />
-              sense ?
+              Thoughts
             </h2>
           </div>
 
@@ -551,24 +561,32 @@ export default function AboutPage() {
           <div className="w-full h-4 shrink-0" />
         </section>
 
-        {/* ----------------- SECTION 3: Text that is revealed by the smudge effect ----------------- */}
+        {/* ----------------- SECTION 3: Smudge Revealer ----------------- */}
         <section
           ref={heroRef}
           className="hero relative h-screen w-screen shrink-0 border-l border-neutral-200 overflow-hidden"
         >
-          <div className="absolute bg-white top-0 left-0 w-full h-full text-center flex items-end justify-center select-none p-6 sm:p-[2rem]">
-            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold tracking-tight text-black leading-tight">
-             Text that is revealed by the smudge effect
-            </h1>
+          <div className="absolute bg-white top-0 left-0 w-full h-full text-center flex flex-col items-center justify-center select-none p-6 sm:p-12">
+            <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-4 sm:mb-6">
+              [ CAUTION ]
+            </span>
+            <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight text-black uppercase leading-[0.92]">
+              Do not wipe<br />this screen.
+            </h2>
           </div>
 
           <div
             style={{ mask: "url(#smudge-mask)", WebkitMask: "url(#smudge-mask)" }}
-            className="absolute bg-black text-white top-0 left-0 w-full h-full text-center flex justify-center items-center select-none p-6 sm:p-[2rem] "
+            className="absolute bg-black text-white top-0 left-0 w-full h-full text-center flex flex-col justify-center items-center select-none p-6 sm:p-12"
           >
-            <h1 className="text-base sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tight leading-tight">
-              lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            </h1>
+            <div className="max-w-2xl sm:max-w-3xl lg:max-w-4xl flex flex-col items-center gap-4 sm:gap-6">
+              <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-400 uppercase">
+                [ CURIOSITY CONFIRMED ]
+              </span>
+              <p className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-snug sm:leading-tight">
+                Told you so. Curiosity is the prerequisite for good engineering. Since you took the effort to scrub all this way, let&apos;s build something together.
+              </p>
+            </div>
           </div>
 
           <svg

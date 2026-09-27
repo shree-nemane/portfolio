@@ -83,7 +83,7 @@ export const projects = [
       "Delivering precision-engineered elastomer solutions with uncompromising quality since 1978.",
     logo: "/work-assets/bymer.png",
     cardBg: "bg-white",
-    image: "/work-slug-assets/bymer-ui.png",
+    image: "/work-slug-assets/bymer-ui.webp",
     alt: "Bymer Elastomers Industrial Website",
     discipline: "B2B MANUFACTURING & INDUSTRIAL WEBSITE",
     metrics: [
@@ -144,7 +144,7 @@ export const projects = [
     year: "2025",
     role: "Web Developer",
     client: "Yajurved Construction Pvt. Ltd.",
-    liveUrl: "https://yajurveda-construction.vercel.app/",
+    liveUrl: "https://www.yajurvedrealestate.com/",
     tagline: "Building Dreams. Developing Lands. Redefining Spaces.",
     description:
       "A multilingual corporate website for Yajurved Construction Pvt. Ltd., presenting the company's real estate investment, construction, redevelopment, financial consultancy, property documentation, and litigation consultancy services.",
@@ -212,15 +212,16 @@ export const projects = [
     year: "2026",
     role: "Android Developement & Backend Engineering",
     client: "Personal Project",
-    liveUrl: "-",
+    repoUrl:'https://github.com/shree-nemane/SIT',
+    // liveUrl: "https://github.com/shree-nemane/SIT",
     tagline: "Relationship Management and Intentional Connection Platform",
     description:
       "Stay In Touch is a relationship-focused application designed to help users organize meaningful connections and maintain regular contact with friends, family, and important people in their lives.",
     quote: "-",
     logo: "/work-assets/stay_in_touch.png",
     cardBg: "bg-white",
-    image: "",
-    alt: "",
+    image: "/work-slug-assets/sit-ui.webp",
+    alt: "Stay In Touch Mobile Application Interface Mockup",
     discipline: "MOBILE APPLICATION & RELATIONSHIP MANAGEMENT",
     metrics: [
       { label: "Role", value: "Android Developer" },
@@ -247,20 +248,6 @@ export const projects = [
       "People often struggle to consistently maintain important personal relationships because conversations, follow-ups, and meaningful details can be difficult to organize over time.",
     solution:
       "We developed a relationship management application intended to help users keep track of personal connections, organize relationship information, and support more intentional communication.",
-    mobileScreens: [
-      {
-        image: "/work-slug-assets/stay-in-touch-mobile-1.png",
-        title: "-",
-        caption: "-",
-      },
-      {
-        image: "/work-slug-assets/stay-in-touch-mobile-2.png",
-        title: "-",
-        caption: "-",
-      },
-    ],
-    secondaryImage: "",
-    secondaryCaption: "-",
   },
   {
   id: "herdhelp",
@@ -272,7 +259,7 @@ export const projects = [
   year: "2025",
   role: "UI/UX Revamp & Frontend Development",
   client: "HerdHelp",
-  liveUrl: "-",
+  liveUrl: "https://www.herdhelp.com/",
   tagline: "Smarter Livestock Management for Healthier, More Profitable Herds",
   description:
     "A comprehensive livestock management platform redesigned with a refreshed user interface to help farmers track animals, monitor health, manage breeding records, review herd weight, organize finances, receive alerts, and identify profitable livestock.",
@@ -386,8 +373,8 @@ export const projects = [
     year: "2026",
     role: "Desktop App & Systems Engineering",
     client: "Personal Project",
-    liveUrl: "-",
-    repoUrl: "https://github.com",
+    liveUrl: "https://github.com/shree-nemane/launcher/releases",
+    repoUrl: "https://github.com/shree-nemane/launcher",
     tagline:
       "High-Performance Keyboard-Driven Windows Desktop Launcher & Environment Orchestrator",
     description:

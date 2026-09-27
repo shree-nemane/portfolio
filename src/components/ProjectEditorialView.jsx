@@ -85,7 +85,7 @@ export default function ProjectEditorialView({ project, onBack }) {
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 text-xs font-mono tracking-wider ${mutedTextClass} hover:opacity-100 transition-opacity`}
+              className={`inline-flex items-center gap-1.5 text-xs tracking-wider ${buttonClasses} hover:opacity-100 transition-opacity`}
             >
               GitHub ↗
             </a>
@@ -237,8 +237,8 @@ export default function ProjectEditorialView({ project, onBack }) {
           ) : project.image && project.image.trim() !== "" ? (
             /* MEDIUM SHOWCASE: WEB PLATFORMS, DESKTOP APPS, OR VISUAL ARTIFACTS */
             <section className="flex flex-col gap-8">
-              {isMobileApp ? (
-                /* Single mobile app preview */
+              {project.phoneFrame ? (
+                /* Single mobile app preview with phone bezel if explicitly configured */
                 <div className="max-w-md mx-auto w-full flex flex-col gap-3">
                   <div className={`relative w-full aspect-[9/18.5] rounded-[2.2rem] sm:rounded-[2.6rem] overflow-hidden border-[3px] shadow-xl p-2 ${isExperiment ? "border-neutral-700 bg-black" : "border-neutral-800/15 bg-white"}`}>
                     <Image
@@ -253,7 +253,7 @@ export default function ProjectEditorialView({ project, onBack }) {
                   </div>
                 </div>
               ) : (
-                /* Web, desktop, or research viewport */
+                /* Full visual showcase viewport (3D Mockups, Web, Desktop, & Mobile Platforms) */
                 <div className="flex flex-col gap-3">
                   <div className={`w-full rounded-xl sm:rounded-2xl overflow-hidden border shadow-[0_12px_40px_rgba(0,0,0,0.06)] ${isExperiment ? "border-white/10 bg-black" : "border-neutral-200/90 bg-white"}`}>
                     <Image
@@ -261,9 +261,9 @@ export default function ProjectEditorialView({ project, onBack }) {
                       src={resolveAsset(project.image)}
                       alt={project.alt ?? project.title}
                       width={1600}
-                      height={1000}
+                      height={1200}
                       priority
-                      className="w-full h-auto max-h-[680px] object-cover block"
+                      className="w-full h-auto block"
                     />
                   </div>
                   {project.primaryCaption && (
