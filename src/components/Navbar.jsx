@@ -1,28 +1,9 @@
 "use client";
 
-import React, { useSyncExternalStore } from "react";
-import { TransitionLink } from "./PageTransition";
+import React from "react";
+import Link from "next/link";
 import ScrambleText from "./ScrambleText";
-
-function subscribeClock(callback) {
-  const timer = setInterval(callback, 1000);
-  return () => clearInterval(timer);
-}
-
-function getClientTime() {
-  const now = new Date();
-  let hours = now.getHours();
-  const minutes = now.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-  return `${hours}:${formattedMinutes}  ${ampm}`;
-}
-
-function getServerTime() {
-  return "00:00 AM";
-}
+import LocalTime from "./LocalTime";
 
 const NAV_ITEMS = [
   { id: "home", label: "Home", href: "/", transitionLabel: "HOME" },
@@ -62,7 +43,7 @@ export function MobileBottomNav({ theme = "dark", active = "" }) {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className={`fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden select-none px-4 py-2 sm:py-2.5 rounded-full flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap ${containerClasses}`}
+      className={`fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden select-none px-3 py-1 rounded-full flex items-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-medium tracking-wider uppercase whitespace-nowrap min-h-[48px] ${containerClasses}`}
     >
       {MOBILE_NAV_ITEMS.map((item, idx) => {
         const isActive = active === item.id;
@@ -72,19 +53,19 @@ export function MobileBottomNav({ theme = "dark", active = "" }) {
               <span className={`${dividerClass} select-none font-light`}>/</span>
             )}
             {isActive ? (
-              <span className={`${activeClass} inline-flex items-center gap-0.5 cursor-default`}>
+              <span className={`${activeClass} inline-flex items-center justify-center gap-0.5 cursor-default min-h-[44px] px-2`}>
                 <span className={`${bracketClass} font-mono`}>[</span>
                 <span>{item.label}</span>
                 <span className={`${bracketClass} font-mono`}>]</span>
               </span>
             ) : (
-              <TransitionLink
+              <Link
                 href={item.href}
-                label={item.transitionLabel}
-                className={`${inactiveClass} transition-colors px-1 py-0.5 active:scale-95`}
+                data-transition-label={item.transitionLabel}
+                className={`${inactiveClass} transition-colors min-h-[44px] px-2 inline-flex items-center justify-center active:scale-95`}
               >
                 {item.label}
-              </TransitionLink>
+              </Link>
             )}
           </React.Fragment>
         );
@@ -106,8 +87,6 @@ export default function Navbar({
   showHome,
   className = "w-full pt-4 sm:pt-6 px-4 sm:px-[2%] z-30 select-none",
 }) {
-  const timeStr = useSyncExternalStore(subscribeClock, getClientTime, getServerTime);
-
   const isLight = theme === "light";
   const shouldShowItem = (item) => {
     if (item.id === "home") return showHome !== undefined ? showHome : active !== "home";
@@ -122,6 +101,7 @@ export default function Navbar({
   const activeColor = isLight ? "text-neutral-900" : "text-white";
   const hoverColor = isLight ? "hover:text-neutral-900" : "hover:text-white";
   const dividerColor = isLight ? "text-neutral-300" : "text-neutral-700";
+  const timeColor = isLight ? "text-neutral-500" : "text-neutral-400";
 
   const buttonClasses = isLight
     ? "bg-neutral-900 text-white hover:bg-neutral-800 active:scale-95 transition-all duration-200 rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs font-medium tracking-wide shadow-2xs hover:shadow-xs cursor-pointer inline-flex items-center"
@@ -138,59 +118,50 @@ export default function Navbar({
                 <ScrambleText text="Let's Create" />
               </span>
             ) : (
-              <TransitionLink
+              <Link
                 href="/"
-                label="HOME"
+                data-transition-label="HOME"
                 className={`text-sm sm:text-base font-semibold tracking-tight ${brandColor} transition-colors cursor-pointer`}
               >
                 <ScrambleText text="Let's Create" />
-              </TransitionLink>
+              </Link>
             )}
           </div>
 
           {/* Time col at ~31% */}
           <div className="w-[20%] hidden lg:flex items-center">
-            <span
-              className="text-xs sm:text-sm font-normal text-neutral-400 tracking-normal tabular-nums"
+            <LocalTime
+              className={`text-xs sm:text-sm font-normal ${timeColor} tracking-normal tabular-nums`}
               title="Local time"
-            >
-              {timeStr}
-            </span>
+            />
           </div>
 
           {/* Navigation links at ~51% */}
           <div className="w-auto lg:w-[35%] hidden md:flex items-center">
             <nav className={`flex items-center gap-3 text-xs sm:text-sm font-medium ${navColor} tracking-wide`}>
-              {items.map((item, index) => {
-                const isActive = active === item.id;
-                return (
-                  <React.Fragment key={item.id}>
-                    {index > 0 && (
-                      <span className={`${dividerColor} font-light`}>/</span>
-                    )}
-                    {isActive ? (
-                      <span className={`${activeColor} cursor-default font-medium`}>
-                        <ScrambleText text={item.label} />
-                      </span>
-                    ) : item.isExternal ? (
-                      <a
-                        href={item.href}
-                        className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
-                      >
-                        <ScrambleText text={item.label} />
-                      </a>
-                    ) : (
-                      <TransitionLink
-                        href={item.href}
-                        label={item.transitionLabel}
-                        className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
-                      >
-                        <ScrambleText text={item.label} />
-                      </TransitionLink>
-                    )}
-                  </React.Fragment>
-                );
-              })}
+              {items.map((item, index) => (
+                <React.Fragment key={item.id}>
+                  {index > 0 && (
+                    <span className={`${dividerColor} font-light`}>/</span>
+                  )}
+                  {item.isExternal ? (
+                    <a
+                      href={item.href}
+                      className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
+                    >
+                      <ScrambleText text={item.label} />
+                    </a>
+                  ) : (
+                    <Link
+                      href={item.href}
+                      data-transition-label={item.transitionLabel}
+                      className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
+                    >
+                      <ScrambleText text={item.label} />
+                    </Link>
+                  )}
+                </React.Fragment>
+              ))}
             </nav>
           </div>
 

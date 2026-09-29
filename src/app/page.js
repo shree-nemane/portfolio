@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '../components/Navbar';
-import { TransitionLink } from "../components/PageTransition";
 import { projects } from "../data/projects";
 
 /**
  * Home Page (React Server Component)
  * Clean, minimalist Swiss editorial flagship presentation.
- * Uses client-side leaf components (<Navbar />, <TransitionLink />) for interactivity
+ * Uses client-side leaf component (<Navbar />) for interactivity
  * while keeping main layout and typography statically rendered on the server.
  */
 export default function Home() {
@@ -19,9 +19,9 @@ export default function Home() {
       {/* Middle Section: Row with View Gallery Button */}
       <div className="w-full flex items-center justify-end px-4 sm:px-[2%] z-20 select-none my-auto py-4 pt-8 sm:pt-16">
         {/* Right tag: Refined Gradient PROJECTS Button */}
-        <TransitionLink
+        <Link
           href="/work"
-          label="WORK GALLERY"
+          data-transition-label="WORK GALLERY"
           className="group relative inline-flex items-center cursor-pointer active:scale-95 transition-transform duration-200"
         >
           {/* Subtle luminous ambient gradient glow */}
@@ -39,15 +39,15 @@ export default function Home() {
               →
             </span>
           </div>
-        </TransitionLink>
+        </Link>
       </div>
 
       {/* Bottom Section: Name + Role + Bio */}
-      <div className="w-full px-4 sm:px-[2%] pb-20 md:pb-6 lg:pb-[5vh] pt-4 z-20 select-none">
+      <div className="w-full px-4 sm:px-[2%] pb-28 md:pb-6 lg:pb-[5vh] pt-4 z-20 select-none">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
           {/* Left: Refined, Professional Name & Title */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs sm:text-sm font-medium tracking-widest text-neutral-400 uppercase pl-16 sm:pl-32 md:pl-40">
+            <span className="text-xs sm:text-sm font-medium tracking-widest text-neutral-500 uppercase pl-16 sm:pl-32 md:pl-40">
               Product &amp; Visual Designer
             </span>
 
@@ -60,7 +60,7 @@ export default function Home() {
                   width={344}
                   height={344}
                   priority
-                  className="h-36 sm:h-52 md:h-64 lg:h-86 w-auto object-contain drop-shadow-xs"
+                  className="h-36 sm:h-52 md:h-64 lg:h-[344px] w-auto object-contain drop-shadow-xs"
                 />
               </div>
 

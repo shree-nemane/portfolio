@@ -1,31 +1,12 @@
 "use client";
 
-import React, { useSyncExternalStore, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { gsap } from "gsap";
-import { TransitionLink } from "../../components/PageTransition";
 import ScrambleText from "../../components/ScrambleText";
 import { MobileBottomNav } from "../../components/Navbar";
-
-function subscribeClock(callback) {
-  const timer = setInterval(callback, 1000);
-  return () => clearInterval(timer);
-}
-
-function getClientTime() {
-  const now = new Date();
-  let hours = now.getHours();
-  const minutes = now.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-  return `${hours}:${formattedMinutes} ${ampm}`;
-}
-
-function getServerTime() {
-  return "19:06 PM";
-}
+import LocalTime from "../../components/LocalTime";
 
 const SMUDGE_CONFIG = {
   smoothing: 0.1,
@@ -51,10 +32,10 @@ const SMUDGE_CONFIG = {
  * a unified 1D inertial smooth scroll RAF coordinator.
  */
 export default function AboutPage() {
-  const timeStr = useSyncExternalStore(subscribeClock, getClientTime, getServerTime);
   const containerRef = useRef(null);
   const leftScrollRef = useRef(null);
   const section2Ref = useRef(null);
+  const bookSectionRef = useRef(null);
   const scrollPosRef = useRef({ current: 0, target: 0 });
   const rafIdRef = useRef(null);
   const startAnimationRef = useRef(null);
@@ -76,7 +57,10 @@ export default function AboutPage() {
       target: el.scrollLeft,
     };
 
+    const isLargeScreen = () => window.innerWidth >= 1024;
+
     const applyScroll = (pos) => {
+      if (!isLargeScreen()) return;
       const leftScroll = leftScrollRef.current;
       const section2El = section2Ref.current;
       const startOffset = section2El ? section2El.offsetLeft : el.clientWidth;
@@ -100,6 +84,10 @@ export default function AboutPage() {
     };
 
     const tick = () => {
+      if (!isLargeScreen()) {
+        rafIdRef.current = null;
+        return;
+      }
       const { current, target } = scrollPosRef.current;
       const diff = target - current;
 
@@ -119,6 +107,7 @@ export default function AboutPage() {
     };
 
     const startAnimation = () => {
+      if (!isLargeScreen()) return;
       if (!rafIdRef.current) {
         rafIdRef.current = requestAnimationFrame(tick);
       }
@@ -126,8 +115,8 @@ export default function AboutPage() {
     startAnimationRef.current = startAnimation;
 
     const onWheel = (e) => {
-      // Don't hijack browser pinch-zoom
-      if (e.ctrlKey) return;
+      // Don't hijack browser pinch-zoom or small screens
+      if (e.ctrlKey || !isLargeScreen()) return;
 
       const leftScroll = leftScrollRef.current;
       const rawDelta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
@@ -160,6 +149,7 @@ export default function AboutPage() {
     };
 
     const onKeyDown = (e) => {
+      if (!isLargeScreen()) return;
       const leftScroll = leftScrollRef.current;
       const maxScrollY = leftScroll
         ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
@@ -182,6 +172,11 @@ export default function AboutPage() {
     };
 
     const onResize = () => {
+      if (!isLargeScreen()) {
+        if (el) el.scrollLeft = 0;
+        if (leftScrollRef.current) leftScrollRef.current.scrollTop = 0;
+        return;
+      }
       const maxScrollY = leftScrollRef.current
         ? Math.max(0, leftScrollRef.current.scrollHeight - leftScrollRef.current.clientHeight)
         : 0;
@@ -209,9 +204,13 @@ export default function AboutPage() {
 
   const scrollToSection2 = () => {
     if (containerRef.current) {
-      const sectionWidth = containerRef.current.clientWidth;
-      scrollPosRef.current.target = sectionWidth;
-      startAnimationRef.current?.();
+      if (window.innerWidth >= 1024) {
+        const sectionWidth = containerRef.current.clientWidth;
+        scrollPosRef.current.target = sectionWidth;
+        startAnimationRef.current?.();
+      } else {
+        (bookSectionRef.current || section2Ref.current)?.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -231,26 +230,29 @@ export default function AboutPage() {
         pointer.x = smoothPointer.x = x;
         pointer.y = smoothPointer.y = y;
         hasStarted = true;
-        return;
+      } else {
+        pointer.x = x;
+        pointer.y = y;
       }
-
-      pointer.x = x;
-      pointer.y = y;
+      requestSmudgeUpdate();
     }
 
     const onMouseMove = function (e) {
-      onPointerMove(e.pageX, e.pageY);
+      const rect = heroSection.getBoundingClientRect();
+      onPointerMove(e.clientX - rect.left, e.clientY - rect.top);
     };
 
     const onTouchStart = function (e) {
       if (e.touches && e.touches[0]) {
-        onPointerMove(e.touches[0].pageX, e.touches[0].pageY);
+        const rect = heroSection.getBoundingClientRect();
+        onPointerMove(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
       }
     };
 
     const onTouchMove = function (e) {
       if (e.touches && e.touches[0]) {
-        onPointerMove(e.touches[0].pageX, e.touches[0].pageY);
+        const rect = heroSection.getBoundingClientRect();
+        onPointerMove(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
       }
     };
 
@@ -259,9 +261,9 @@ export default function AboutPage() {
     heroSection.addEventListener("touchmove", onTouchMove, { passive: true });
 
     function matchSVGToViewport() {
-      if (smudgeSVG) {
-        smudgeSVG.style.width = window.innerWidth + "px";
-        smudgeSVG.style.height = window.innerHeight + "px";
+      if (smudgeSVG && heroSection) {
+        smudgeSVG.style.width = heroSection.clientWidth + "px";
+        smudgeSVG.style.height = heroSection.clientHeight + "px";
       }
     }
 
@@ -310,7 +312,16 @@ export default function AboutPage() {
       );
     }
 
-    let rafId;
+    let rafId = null;
+    let isLoopRunning = false;
+
+    function requestSmudgeUpdate() {
+      if (!isLoopRunning) {
+        isLoopRunning = true;
+        rafId = requestAnimationFrame(update);
+      }
+    }
+
     function update() {
       if (hasStarted) {
         smoothPointer.x += (pointer.x - smoothPointer.x) * SMUDGE_CONFIG.smoothing;
@@ -328,12 +339,16 @@ export default function AboutPage() {
             speed * SMUDGE_CONFIG.sizeFromSpeed
           );
         }
+
+        if (speed < 0.005) {
+          isLoopRunning = false;
+          rafId = null;
+          return;
+        }
       }
 
       rafId = requestAnimationFrame(update);
     }
-
-    rafId = requestAnimationFrame(update);
 
     return () => {
       window.removeEventListener("resize", matchSVGToViewport);
@@ -348,32 +363,32 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <main className="relative h-screen w-screen overflow-hidden bg-white text-black selection:bg-black selection:text-white">
+    <main className="relative min-h-screen w-full overflow-x-hidden bg-white text-black selection:bg-black selection:text-white lg:h-screen lg:w-screen lg:overflow-hidden">
       {/* ================= FIXED NAVBAR: ONLY HOME IN TOP LEFT ================= */}
-      <nav className="fixed top-4 sm:top-5 left-4 sm:left-12 z-1000 select-none">
-        <TransitionLink
+      <nav className="fixed top-4 sm:top-5 left-4 sm:left-12 z-[1000] select-none">
+        <Link
           href="/"
-          label="HOME"
+          data-transition-label="HOME"
           className="hidden  lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700  uppercase cursor-pointer"
         >
           <span className="text-black text-lg">&#91; </span>
           <span className="hover:opacity-60 transition-opacity">←</span>
           <ScrambleText className="hover:opacity-60 transition-opacity" text="HOME" />
           <span className="text-black text-lg"> &#93;</span>
-        </TransitionLink>
+        </Link>
       </nav>
 
       {/* Floating Bottom Navigation Pill on Mobile */}
       <MobileBottomNav theme="light" active="about" />
 
-      {/* ================= HORIZONTAL CONTINUOUS SCROLL CONTAINER ================= */}
+      {/* ================= CONTINUOUS SCROLL CONTAINER: VERTICAL ON MOBILE, HORIZONTAL ON LG ================= */}
       <div
         ref={containerRef}
-        className="relative h-screen w-screen overflow-x-auto overflow-y-hidden flex flex-row select-none no-scrollbar"
+        className="relative w-full flex flex-col lg:h-screen lg:w-screen lg:overflow-x-auto lg:overflow-y-hidden lg:flex-row select-none no-scrollbar"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* ----------------- SECTION 1: HERO (01) ----------------- */}
-        <section className="relative h-screen w-screen shrink-0 flex flex-col justify-between p-5 sm:p-10 lg:p-8 bg-white">
+        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 flex flex-col justify-between p-5 sm:p-10 lg:p-8 bg-white">
           {/* Top Info Bar */}
           <div className="w-full flex items-center justify-end z-20">
             <div className="flex items-center gap-3 sm:gap-8">
@@ -382,14 +397,14 @@ export default function AboutPage() {
               >
                 A LITTLE RUN THROUGH MY MIND
               </span>
-              <div className="bg-black text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-sm text-[11px] sm:text-xs font-mono font-medium tracking-wider">
-                {timeStr}
+              <div className="bg-black text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-sm text-[11px] sm:text-xs font-medium tracking-wider tabular-nums min-w-[62px] min-h-[22px] flex items-center justify-center text-center">
+                <LocalTime />
               </div>
             </div>
           </div>
 
           {/* Left Indicator */}
-          <div className="hidden lg:block absolute left-10 lg:left-12 top-[42%] text-[11px] font-mono tracking-widest text-neutral-600">
+          <div className="hidden lg:block absolute left-10 lg:left-12 top-[42%] text-[11px] font-semibold tracking-[0.2em] text-neutral-600">
             HORIZONTAL SCROLL →
           </div>
 
@@ -435,7 +450,7 @@ export default function AboutPage() {
             <div className="w-24">
               <ScrambleText
                 text="Keep going"
-                className="text-[10px] sm:text-[11px] font-mono tracking-widest text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors"
+                className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors"
               />
             </div>
 
@@ -456,22 +471,25 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="relative h-screen w-screen shrink-0 flex flex-col justify-between overflow-hidden">
+        <section
+          ref={bookSectionRef}
+          className="relative h-[45vh] sm:h-[55vh] lg:h-screen w-full lg:w-screen shrink-0 flex items-center justify-center overflow-hidden"
+        >
           <Image
-            src="/intro-book.webp"
-            alt="Hero Image"
+            src="/intro-book-white.webp"
+            alt="Intro book editorial cover"
             width={1920} height={1080}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rotate-15"
           />
         </section>
 
         {/* ----------------- SECTION 2: THINGS THAT DON'T MAKE SENSE ----------------- */}
         <section
           ref={section2Ref}
-          className="relative h-screen w-screen shrink-0 border-l border-neutral-200 bg-white text-black p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden"
+          className="relative min-h-screen w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden"
         >
           {/* Top Bar: Name + Stacked Index/Approach */}
-          <div className="pt-16 sm:pt-28 lg:pt-40 flex-1 min-h-0 flex flex-col">
+          <div className="pt-10 sm:pt-16 lg:pt-40 flex-1 min-h-0 flex flex-col">
             <div className="w-full flex items-start justify-between z-20 shrink-0 pb-4 ">
               <div className="flex items-start gap-8 sm:gap-20 pt-1">
                 <span className="text-base sm:text-lg font-medium tracking-tight text-black">
@@ -486,11 +504,11 @@ export default function AboutPage() {
             </div>
 
             {/* Main Stage: Left scrollable column + Right stagnant title */}
-            <div className="relative w-full flex-1 min-h-0 flex flex-col lg:flex-row items-stretch justify-between gap-8 lg:gap-12 overflow-hidden">
+            <div className="relative w-full flex-1 min-h-0 flex flex-col lg:flex-row items-stretch justify-between gap-8 lg:gap-12 overflow-visible lg:overflow-hidden">
               {/* Left Part: Scrollable Steps (01, 02, 03 - opinions and personal observations) */}
               <div
                 ref={leftScrollRef}
-                className="w-full lg:w-[56%] h-full overflow-y-auto no-scrollbar pr-4 sm:pr-8 lg:pr-12"
+                className="w-full lg:w-[56%] h-auto lg:h-full overflow-visible lg:overflow-y-auto no-scrollbar pr-0 lg:pr-12"
                 style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
                 {/* Mobile title */}
@@ -500,7 +518,7 @@ export default function AboutPage() {
                   </h2>
                 </div>
 
-                <div className="flex flex-col gap-12 sm:gap-20 lg:gap-28 pt-4 pb-28 sm:pb-48">
+                <div className="flex flex-col gap-10 sm:gap-16 lg:gap-28 pt-4 pb-32 sm:pb-24 lg:pb-48">
                   {/* Step 01: Modern Complexity */}
                   <div className="flex items-start gap-6 sm:gap-14">
                     <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black shrink-0 w-10 sm:w-20">
@@ -558,13 +576,13 @@ export default function AboutPage() {
           </div>
 
           {/* Clean minimal spacer bottom */}
-          <div className="w-full h-4 shrink-0" />
+          <div className="w-full h-20 lg:h-4 shrink-0" />
         </section>
 
         {/* ----------------- SECTION 3: Smudge Revealer ----------------- */}
         <section
           ref={heroRef}
-          className="hero relative h-screen w-screen shrink-0 border-l border-neutral-200 overflow-hidden"
+          className="hero relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 overflow-hidden"
         >
           <div className="absolute bg-white top-0 left-0 w-full h-full text-center flex flex-col items-center justify-center select-none p-6 sm:p-12">
             <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-4 sm:mb-6">
@@ -611,7 +629,7 @@ export default function AboutPage() {
         </section>
 
         {/* ----------------- SECTION 4: OUTRO ----------------- */}
-        <section className="relative h-screen w-screen shrink-0 border-l border-neutral-200 bg-white text-black flex items-center justify-center p-6 sm:p-12 overflow-hidden select-none">
+        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black flex items-center justify-center p-6 sm:p-12 overflow-hidden select-none">
           <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tight [word-spacing:0.5rem] sm:[word-spacing:1rem] uppercase text-black text-center">
             <span className="block overflow-hidden">
               <span className="inline-block animate-mask-slide-up [animation-delay:150ms]">

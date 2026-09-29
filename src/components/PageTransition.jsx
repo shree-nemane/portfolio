@@ -7,7 +7,7 @@ import gsap from "gsap";
 /**
  * PageTransition
  * Coordinated dual-stage shutter wipe screen transitions.
- * Intercepts navigation clicks via <TransitionLink />, animates closing shutters with
+ * Intercepts internal navigation links globally, animates closing shutters with
  * dynamic contextual route labels, dispatches Next.js router navigation, and smoothly
  * reveals the newly rendered route on path change.
  */
@@ -30,41 +30,6 @@ function getLabelForPath(href) {
   return path.replace(/^\//, "").replace(/-/g, " ").toUpperCase() || "PAGE";
 }
 
-export function TransitionLink({
-  href,
-  label,
-  children,
-  className = "",
-  onClick,
-  ...props
-}) {
-  const { navigateTo } = usePageTransition();
-  const computedLabel = label || getLabelForPath(href);
-
-  const handleClick = (e) => {
-    // Allow default behavior for modified clicks (open in new tab / window)
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
-      return;
-    }
-    e.preventDefault();
-    onClick?.(e);
-    navigateTo(href, computedLabel);
-  };
-
-  return (
-    <a
-      href={href}
-      data-transition-link="true"
-      data-transition-label={computedLabel}
-      onClick={handleClick}
-      className={className}
-      {...props}
-    >
-      {children}
-    </a>
-  );
-}
-
 export function PageTransitionProvider({ children }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -78,9 +43,20 @@ export function PageTransitionProvider({ children }) {
   const closeCompletedRef = useRef(false);
   const routeChangedRef = useRef(false);
   const currentPathRef = useRef(pathname);
+  const fallbackTimerRef = useRef(null);
+  const openTimerRef = useRef(null);
 
   // Open / Reverse Shutter Animation
   const openShutter = useCallback(() => {
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+    if (openTimerRef.current) {
+      clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
+
     const topEl = topBlockRef.current;
     const bottomEl = bottomBlockRef.current;
     const overlay = overlayRef.current;
@@ -140,6 +116,16 @@ export function PageTransitionProvider({ children }) {
         return; // Already on this exact page and search
       }
 
+      // Clear any pending timers from previous navigations
+      if (fallbackTimerRef.current) {
+        clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = null;
+      }
+      if (openTimerRef.current) {
+        clearTimeout(openTimerRef.current);
+        openTimerRef.current = null;
+      }
+
       isTransitioningRef.current = true;
       closeCompletedRef.current = false;
       routeChangedRef.current = false;
@@ -177,11 +163,11 @@ export function PageTransitionProvider({ children }) {
         onComplete: () => {
           closeCompletedRef.current = true;
           // Trigger the Next.js router change
-          router.push(href);
+          router.push(href, { scroll: true });
 
           // If route already changed or navigating within same base path (where pathname won't trigger useEffect)
           if (routeChangedRef.current || cleanTarget === cleanCurrent) {
-            setTimeout(() => {
+            openTimerRef.current = setTimeout(() => {
               openShutter();
             }, 60);
           }
@@ -208,12 +194,12 @@ export function PageTransitionProvider({ children }) {
         0
       );
 
-      // Safety fallback: Never trap screen in black if route fails to change
-      setTimeout(() => {
+      // ponytail: Safety ceiling only for disconnected/failed network or browser aborts; normal loads resolve via pathname useEffect
+      fallbackTimerRef.current = setTimeout(() => {
         if (isTransitioningRef.current) {
           openShutter();
         }
-      }, 1500);
+      }, 8000);
     },
     [router, pathname, openShutter]
   );
@@ -224,12 +210,15 @@ export function PageTransitionProvider({ children }) {
 
     if (isTransitioningRef.current) {
       routeChangedRef.current = true;
+      if (fallbackTimerRef.current) {
+        clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = null;
+      }
       if (closeCompletedRef.current) {
         // Small tick to ensure DOM has painted the new route
-        const timer = setTimeout(() => {
+        openTimerRef.current = setTimeout(() => {
           openShutter();
         }, 60);
-        return () => clearTimeout(timer);
       }
     }
   }, [pathname, openShutter]);
@@ -243,6 +232,10 @@ export function PageTransitionProvider({ children }) {
       gsap.set(topBlockRef.current, { yPercent: -100 });
       gsap.set(bottomBlockRef.current, { yPercent: 100 });
     }
+    return () => {
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
+      if (openTimerRef.current) clearTimeout(openTimerRef.current);
+    };
   }, []);
 
   // Global click interception in capture phase for internal navigation links
@@ -254,9 +247,8 @@ export function PageTransitionProvider({ children }) {
       const href = anchor.getAttribute("href");
       if (!href) return;
 
-      // Ignore external, hash, tel, mailto, new-tab, or TransitionLink-managed links
+      // Ignore external, hash, tel, mailto, new-tab, or download links
       if (
-        anchor.hasAttribute("data-transition-link") ||
         href.startsWith("#") ||
         href.startsWith("mailto:") ||
         href.startsWith("tel:") ||
@@ -322,6 +314,16 @@ export function PageTransitionProvider({ children }) {
           >
             PAGE
           </span>
+
+          {/* 3-Bar Kinetic Rhythm Indicator at Bottom Right (Sharp Architectural / Swiss Mono) */}
+          <div
+            aria-hidden="true"
+            className="absolute bottom-6 sm:bottom-8 right-6 sm:right-10 flex items-end gap-1 h-8 pointer-events-none select-none"
+          >
+            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0s" }} />
+            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0.18s" }} />
+            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0.36s" }} />
+          </div>
         </div>
       </div>
     </PageTransitionContext.Provider>

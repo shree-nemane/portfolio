@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { TransitionLink } from "./PageTransition";
+import Link from "next/link";
 import { getAdjacentProjects } from "../data/projects";
 
 /**
@@ -68,15 +68,15 @@ export default function ProjectEditorialView({ project, onBack }) {
             <span className="font-sans text-base">&#93;</span>
           </button>
         ) : (
-          <TransitionLink
+          <Link
             href={`/work?project=${project.slug}`}
-            label="WORK GALLERY"
+            data-transition-label="WORK GALLERY"
             className={`inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest ${mutedTextClass} hover:opacity-100 transition-opacity cursor-pointer`}
           >
             <span className="font-sans text-base">&#91;</span>
             <span>← Back to gallery</span>
             <span className="font-sans text-base">&#93;</span>
-          </TransitionLink>
+          </Link>
         )}
 
         <div className="flex items-center gap-4">
@@ -90,7 +90,7 @@ export default function ProjectEditorialView({ project, onBack }) {
               GitHub ↗
             </a>
           )}
-          {project.liveUrl && (
+          {project.liveUrl && project.liveUrl !== "-" && (
             <a
               href={project.liveUrl}
               target="_blank"
@@ -562,14 +562,14 @@ export default function ProjectEditorialView({ project, onBack }) {
               </span>
             </div>
 
-            <TransitionLink
+            <Link
               href={`/work/${next.slug}`}
-              label={next.title.toUpperCase()}
+              data-transition-label={next.title.toUpperCase()}
               className={buttonClasses}
             >
               <span>View Next</span>
               <span className="text-xs">→</span>
-            </TransitionLink>
+            </Link>
           </footer>
         )}
       </main>

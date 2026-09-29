@@ -327,11 +327,11 @@ export const projects = [
     shortTitle: "Deepfake XAI",
     type: "experiment",
     category: "Forensic AI & Explainable Machine Learning",
-    experimentNumber: "-",
+    experimentNumber: "1",
     year: "2026",
     role: "AI Research & Full-Stack Development",
     client: "-",
-    liveUrl: "-",
+    liveUrl: "https://github.com/shree-nemane/deepfake-xai-explanation",
     tagline: "Multi-Agent Audio Deepfake Detection with Explainable Forensic Evidence",
     description:
       "An investigator-grade forensic audio intelligence platform that analyzes speech recordings for deepfakes, voice clones, partial synthesis, and localized audio splices. The system combines multiple independent forensic agents with temporal chunk analysis, reliability-aware consensus reasoning, exact SHAP attribution, counterfactual sensitivity, evidence graphs, and deterministic forensic narratives.",

@@ -1,6 +1,6 @@
 import React from "react";
+import Link from "next/link";
 import Navbar from "../../components/Navbar";
-import { TransitionLink } from "../../components/PageTransition";
 import { services } from "../../data/services";
 
 /**
@@ -73,16 +73,16 @@ export default function ServicesPage() {
       </div>
 
       {/* Subtle Footer Bridge */}
-      <footer className="w-full pt-8 pb-24 sm:py-8 px-[2%] flex items-center justify-end text-sm text-neutral-600 select-none">
-        <TransitionLink
+      <footer className="w-full pt-8 pb-32 sm:py-8 px-[2%] flex items-center justify-end text-sm text-neutral-600 select-none">
+        <Link
           href="/work"
-          label="WORK GALLERY"
+          data-transition-label="WORK GALLERY"
           className="text-white p-2 px-4  text-lg hover:text-neutral-400 transition-colors"
         >
           <span className="text-white text-lg">&#91; </span>
           Explore Work Gallery →
           <span className="text-white text-lg"> &#93;</span>
-        </TransitionLink>
+        </Link>
       </footer>
     </main>
   );

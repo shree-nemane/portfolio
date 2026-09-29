@@ -1,6 +1,6 @@
 import React from "react";
+import Link from "next/link";
 import Navbar from "../../components/Navbar";
-import { TransitionLink } from "../../components/PageTransition";
 import { projects } from "../../data/projects";
 import ScrambleText from "../../components/ScrambleText";
 import ParallaxCard from "../../components/ParallaxCard";
@@ -8,7 +8,7 @@ import ParallaxCard from "../../components/ParallaxCard";
 /**
  * WorkPage (React Server Component)
  * Curated archive of production digital products, experiments, and technical skills.
- * Leverages client components (<ParallaxCard />, <ScrambleText />, <TransitionLink />)
+ * Leverages client components (<ParallaxCard />, <ScrambleText />)
  * for micro-interactions while retaining server-rendered speed and SEO efficiency.
  */
 export default function WorkPage() {
@@ -42,7 +42,7 @@ export default function WorkPage() {
       {/* Main Editorial Content Container */}
       <div className="w-full mx-auto px-5 sm:px-12 lg:px-16 py-8 sm:py-16 mt-16 sm:mt-24 md:mt-36 flex flex-col gap-10 sm:gap-20">
         {/* Intro / Header identity */}
-        <section className="flex flex-col gap-10 items-end-safe">
+        <section className="flex flex-col gap-10 items-end">
           <div className="flex flex-col gap-1">
             <p className="text-xl sm:text-3xl md:text-4xl text-white font-semibold ">
               <span className="block overflow-hidden">
@@ -54,7 +54,7 @@ export default function WorkPage() {
           </div>
 
           {/* About narrative */}
-          <div className="flex flex-col gap-3 items-end-safe">
+          <div className="flex flex-col gap-3 items-end">
             <h2 className="text-xs font-semibold tracking-widest text-neutral-400 uppercase">
               <span className="text-white text-lg">&#91; </span>
               <ScrambleText text="Work" />
@@ -119,10 +119,10 @@ export default function WorkPage() {
             </div>
             <div className="flex flex-col divide-y divide-white/5">
               {currentProducts.map((item, idx) => (
-                <TransitionLink
+                <Link
                   key={idx}
                   href={`/work/${item.slug}`}
-                  label={item.title.toUpperCase()}
+                  data-transition-label={item.title.toUpperCase()}
                   className="py-2.5 flex items-center justify-between text-xs sm:text-[13px] group hover:text-white transition-colors cursor-pointer"
                 >
                   <span className="text-neutral-300 group-hover:text-white font-normal transition-colors">
@@ -131,7 +131,7 @@ export default function WorkPage() {
                   <span className="text-neutral-500 group-hover:text-neutral-400 text-[11px] transition-colors">
                     {item.type} ↗
                   </span>
-                </TransitionLink>
+                </Link>
               ))}
             </div>
           </div>
@@ -172,10 +172,10 @@ export default function WorkPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-4">
             {primaryProjects.map((project) => (
-              <TransitionLink
+              <Link
                 key={project.id}
                 href={`/work/${project.slug}`}
-                label={project.title.toUpperCase()}
+                data-transition-label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
                 <div className="flex p-2 border border-white/20">
@@ -202,7 +202,7 @@ export default function WorkPage() {
                 </ParallaxCard>
                 </div>
                 
-              </TransitionLink>
+              </Link>
             ))}
           </div>
         </section>
@@ -225,10 +225,10 @@ export default function WorkPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-4">
             {experimentProjects.map((project) => (
-              <TransitionLink
+              <Link
                 key={project.id}
                 href={`/work/${project.slug}`}
-                label={project.title.toUpperCase()}
+                data-transition-label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
                 <div className="flex p-2 border border-white/20">
@@ -254,14 +254,14 @@ export default function WorkPage() {
                   </div>
                 </ParallaxCard>
                 </div>
-              </TransitionLink>
+              </Link>
             ))}
           </div>
         </section>
       </div>
 
       {/* Editorial Quote */}
-      <footer className="w-full pt-12 pb-24 sm:py-16 px-5 sm:px-12 lg:px-16 flex flex-col items-start justify-center text-left select-none">
+      <footer className="w-full pt-12 pb-32 sm:py-16 px-5 sm:px-12 lg:px-16 flex flex-col items-start justify-center text-left select-none">
         <blockquote className="max-w-2xl text-base sm:text-lg font-light text-neutral-300 tracking-tight leading-relaxed">
           &ldquo;Simplicity is about subtracting the obvious and adding the meaningful.&rdquo;
         </blockquote>

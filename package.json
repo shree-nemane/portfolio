@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "start http://localhost:3000 & next dev",
+    "dev": "start /B next dev && timeout /t 3 /nobreak >nul && start http://localhost:3000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -23,6 +23,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "uipro-cli": "^2.2.3"
   }
 }

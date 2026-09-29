@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 
-const GLYPHS = "!<>-_\\/[]{}—=+*^?#01~";
+const GLYPHS = "!<>-_\\/[]{}*^?#01~=+:";
 
 /**
  * ScrambleText (Client Component)
@@ -27,9 +27,13 @@ export default function ScrambleText({
   }
 
   const startScramble = () => {
-    if (!text) return;
+    if (!text || isHoveredRef.current) return;
     isHoveredRef.current = true;
-    clearInterval(intervalRef.current);
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
     let iteration = 0;
     const targetLength = text.length;
@@ -48,23 +52,31 @@ export default function ScrambleText({
           .join("")
       );
 
+      iteration += 1 / 2;
+
       if (iteration >= targetLength) {
-        clearInterval(intervalRef.current);
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
         setDisplayText(text);
       }
-
-      iteration += 1 / 2;
     }, speed);
   };
 
   const stopScramble = () => {
     isHoveredRef.current = false;
-    clearInterval(intervalRef.current);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
     setDisplayText(text);
   };
 
   useEffect(() => {
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
   return (
