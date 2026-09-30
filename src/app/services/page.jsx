@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { services } from "../../data/services";
+import KineticText from "@/components/KineticText";
 
 /**
  * ServicesPage (React Server Component)
@@ -18,7 +19,7 @@ export default function ServicesPage() {
       {/* Main Content Area */}
       <div className="w-full max-w-7xl mx-auto px-5 sm:px-12 py-12 sm:py-20 md:py-24 flex flex-col flex-1 justify-center">
         {/* Section Tag */}
-        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+        <div className="flex items-center gap-4 lg:mb-6 sm:mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 inline-block" />
           <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] text-neutral-400 uppercase">
             SERVICES
@@ -77,11 +78,12 @@ export default function ServicesPage() {
         <Link
           href="/work"
           data-transition-label="WORK GALLERY"
-          className="text-white p-2 px-4  text-lg hover:text-neutral-400 transition-colors"
+          className="text-white p-2 px-4 text-md border-y border-white hover:text-neutral-400 transition-colors"
         >
-          <span className="text-white text-lg">&#91; </span>
-          Explore Work Gallery →
-          <span className="text-white text-lg"> &#93;</span>
+          {/* <span className="text-white text-lg">&#91; </span> */}
+              <KineticText text="Explore Work Gallery →" />
+
+          {/* <span className="text-white text-lg"> &#93;</span> */}
         </Link>
       </footer>
     </main>

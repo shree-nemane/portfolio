@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
-import ScrambleText from "../../components/ScrambleText";
+import KineticText from "../../components/KineticText";
 import { MobileBottomNav } from "../../components/Navbar";
 import LocalTime from "../../components/LocalTime";
 
@@ -33,348 +33,471 @@ const SMUDGE_CONFIG = {
  */
 export default function AboutPage() {
   const containerRef = useRef(null);
+  const driverRef = useRef(null);
+  const spacerRef = useRef(null);
+  const metricsRef = useRef({ section2Start: 0, innerMaxY: 0, maxScrollX: 0, totalDistance: 0 });
   const leftScrollRef = useRef(null);
   const section2Ref = useRef(null);
   const bookSectionRef = useRef(null);
-  const scrollPosRef = useRef({ current: 0, target: 0 });
-  const rafIdRef = useRef(null);
-  const startAnimationRef = useRef(null);
   const heroRef = useRef(null);
   const smudgeSvgRef = useRef(null);
   const smudgeContainerRef = useRef(null);
 
-  // Inertial smooth scroll coordinator (RAF + LERP interpolation):
-  // Eliminates harsh notch jumps and abruptly stopping at boundaries.
-  // 1. Unified 1D virtual scroll track: Horizontal -> Section 2 vertical -> Forward
-  // 2. Linear interpolation (0.09 factor) for buttery ease-out deceleration
-  // 3. Velocity dampening (0.65 factor) to prevent rushing through content
+  // Native scroll driver: the browser owns vertical scroll position. On desktop,
+  // the horizontal track is sticky and its transform is derived from scroll progress.
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+    const driver = driverRef.current;
+    const track = containerRef.current;
+    const spacer = spacerRef.current;
+    const inner = leftScrollRef.current;
+    const section2 = section2Ref.current;
+    if (!driver || !track || !spacer || !inner || !section2) return;
 
-    scrollPosRef.current = {
-      current: el.scrollLeft,
-      target: el.scrollLeft,
-    };
+    let desktop = window.innerWidth >= 1024;
+    let measureRaf = 0;
 
-    const isLargeScreen = () => window.innerWidth >= 1024;
-
-    const applyScroll = (pos) => {
-      if (!isLargeScreen()) return;
-      const leftScroll = leftScrollRef.current;
-      const section2El = section2Ref.current;
-      const startOffset = section2El ? section2El.offsetLeft : el.clientWidth;
-      const maxScrollY = leftScroll
-        ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
-        : 0;
-
-      if (pos <= startOffset) {
-        // Sections before Section 2 -> horizontal scroll
-        el.scrollLeft = pos;
-        if (leftScroll) leftScroll.scrollTop = 0;
-      } else if (pos <= startOffset + maxScrollY) {
-        // Inside Section 2 -> vertical glide through left column
-        el.scrollLeft = startOffset;
-        if (leftScroll) leftScroll.scrollTop = pos - startOffset;
-      } else {
-        // Past Section 2 -> continue horizontally
-        el.scrollLeft = startOffset + (pos - (startOffset + maxScrollY));
-        if (leftScroll) leftScroll.scrollTop = maxScrollY;
-      }
-    };
-
-    const tick = () => {
-      if (!isLargeScreen()) {
-        rafIdRef.current = null;
-        return;
-      }
-      const { current, target } = scrollPosRef.current;
-      const diff = target - current;
-
-      if (Math.abs(diff) < 0.8) {
-        scrollPosRef.current.current = target;
-        applyScroll(target);
-        rafIdRef.current = null;
+    const measure = () => {
+      measureRaf = 0;
+      desktop = window.innerWidth >= 1024;
+      if (!desktop) {
+        track.style.transform = "none";
+        spacer.style.height = "0px";
+        inner.style.overflowY = "visible";
+        inner.style.removeProperty("height");
+        inner.style.removeProperty("overflow-y");
+        inner.scrollTop = 0;
         return;
       }
 
-      // 0.15 easing factor delivers snappy, zero-lag physical response with smooth deceleration
-      const next = current + diff * 0.15;
-      scrollPosRef.current.current = next;
-      applyScroll(next);
+      // Read geometry only during invalidation, never in the scroll handler.
+      const viewportWidth = driver.clientWidth;
+      const contentWidth = track.scrollWidth;
+      const maxScrollX = Math.max(0, contentWidth - viewportWidth);
+      const section2Start = Math.max(0, section2.offsetLeft);
 
-      rafIdRef.current = requestAnimationFrame(tick);
+      inner.style.overflowY = "hidden";
+      const innerMaxY = Math.max(0, inner.scrollHeight - inner.clientHeight);
+      const totalDistance = maxScrollX + innerMaxY;
+
+      metricsRef.current = { section2Start, innerMaxY, maxScrollX, totalDistance };
+      spacer.style.height = `${totalDistance}px`;
+      updateFromScroll();
     };
 
-    const startAnimation = () => {
-      if (!isLargeScreen()) return;
-      if (!rafIdRef.current) {
-        rafIdRef.current = requestAnimationFrame(tick);
+    const updateFromScroll = () => {
+      if (!desktop) return;
+      const { section2Start, innerMaxY, maxScrollX, totalDistance } = metricsRef.current;
+      const distance = Math.max(0, Math.min(totalDistance, driver.scrollTop));
+      const before = Math.min(distance, section2Start);
+      const inside = Math.max(0, Math.min(innerMaxY, distance - section2Start));
+      const after = Math.max(0, distance - section2Start - innerMaxY);
+      const x = Math.min(maxScrollX, before + after);
+
+      track.style.transform = `translate3d(${-x}px, 0, 0)`;
+      inner.scrollTop = inside;
+    };
+
+    const scheduleMeasure = () => {
+      if (!measureRaf) measureRaf = requestAnimationFrame(measure);
+    };
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchActive = false;
+    const previousTouchAction = track.style.touchAction;
+    track.style.touchAction = "pan-y";
+    const onPointerDown = (event) => {
+      if (!desktop || event.pointerType !== "touch") return;
+      touchStartX = event.clientX;
+      touchStartY = event.clientY;
+      touchActive = true;
+    };
+    const onPointerMove = (event) => {
+      if (!touchActive || event.pointerType !== "touch" || !desktop) return;
+      const dx = event.clientX - touchStartX;
+      const dy = event.clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        event.preventDefault();
+        driver.scrollTop += -dx;
+        touchStartX = event.clientX;
+        touchStartY = event.clientY;
       }
     };
-    startAnimationRef.current = startAnimation;
+    const onPointerEnd = () => { touchActive = false; };
 
-    const onWheel = (e) => {
-      // Don't hijack browser pinch-zoom or small screens
-      if (e.ctrlKey || !isLargeScreen()) return;
-
-      const leftScroll = leftScrollRef.current;
-      const rawDelta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      if (Math.abs(rawDelta) < 0.5) return;
-
-      e.preventDefault();
-
-      // Normalize line-scroll vs pixel-scroll
-      const baseDelta =
-        e.deltaMode === 1
-          ? rawDelta * 24
-          : e.deltaMode === 2
-            ? rawDelta * window.innerHeight * 0.5
-            : rawDelta;
-
-      const delta = baseDelta * 0.8;
-
-      const maxScrollY = leftScroll
-        ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
-        : 0;
-      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
-      const totalDistance = maxScrollX + maxScrollY;
-
-      scrollPosRef.current.target = Math.max(
-        0,
-        Math.min(totalDistance, scrollPosRef.current.target + delta)
-      );
-
-      startAnimation();
-    };
-
-    const onKeyDown = (e) => {
-      if (!isLargeScreen()) return;
-      const leftScroll = leftScrollRef.current;
-      const maxScrollY = leftScroll
-        ? Math.max(0, leftScroll.scrollHeight - leftScroll.clientHeight)
-        : 0;
-      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
-      const totalDistance = maxScrollX + maxScrollY;
-
-      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-        e.preventDefault();
-        scrollPosRef.current.target = Math.min(
-          totalDistance,
-          scrollPosRef.current.target + 200
-        );
-        startAnimation();
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-        e.preventDefault();
-        scrollPosRef.current.target = Math.max(0, scrollPosRef.current.target - 200);
-        startAnimation();
-      }
-    };
-
-    const onResize = () => {
-      if (!isLargeScreen()) {
-        if (el) el.scrollLeft = 0;
-        if (leftScrollRef.current) leftScrollRef.current.scrollTop = 0;
-        return;
-      }
-      const maxScrollY = leftScrollRef.current
-        ? Math.max(0, leftScrollRef.current.scrollHeight - leftScrollRef.current.clientHeight)
-        : 0;
-      const maxScrollX = Math.max(0, el.scrollWidth - el.clientWidth);
-      const totalDistance = maxScrollX + maxScrollY;
-
-      scrollPosRef.current.target = Math.min(scrollPosRef.current.target, totalDistance);
-      scrollPosRef.current.current = Math.min(scrollPosRef.current.current, totalDistance);
-      applyScroll(scrollPosRef.current.current);
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("resize", onResize);
+    track.addEventListener("pointerdown", onPointerDown);
+    track.addEventListener("pointermove", onPointerMove, { passive: false });
+    track.addEventListener("pointerup", onPointerEnd);
+    track.addEventListener("pointercancel", onPointerEnd);
+    driver.addEventListener("scroll", updateFromScroll, { passive: true });
+    window.addEventListener("resize", scheduleMeasure, { passive: true });
+    const observer = new ResizeObserver(scheduleMeasure);
+    observer.observe(track);
+    observer.observe(inner);
+    observer.observe(section2);
+    scheduleMeasure();
 
     return () => {
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("resize", onResize);
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
+      track.removeEventListener("pointerdown", onPointerDown);
+      track.removeEventListener("pointermove", onPointerMove);
+      track.removeEventListener("pointerup", onPointerEnd);
+      track.removeEventListener("pointercancel", onPointerEnd);
+      track.style.touchAction = previousTouchAction;
+      driver.removeEventListener("scroll", updateFromScroll);
+      window.removeEventListener("resize", scheduleMeasure);
+      observer.disconnect();
+      if (measureRaf) cancelAnimationFrame(measureRaf);
     };
   }, []);
 
   const scrollToSection2 = () => {
-    if (containerRef.current) {
-      if (window.innerWidth >= 1024) {
-        const sectionWidth = containerRef.current.clientWidth;
-        scrollPosRef.current.target = sectionWidth;
-        startAnimationRef.current?.();
-      } else {
-        (bookSectionRef.current || section2Ref.current)?.scrollIntoView({ behavior: "smooth" });
-      }
+    const driver = driverRef.current;
+    if (driver && window.innerWidth >= 1024) {
+      const { section2Start } = metricsRef.current;
+      driver.scrollTo({ top: section2Start, behavior: "smooth" });
+    } else {
+      (bookSectionRef.current || section2Ref.current)?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  useEffect(() => {
-    const heroSection = heroRef.current || document.querySelector(".hero");
-    const smudgeSVG = smudgeSvgRef.current || document.querySelector(".smudge-revealer");
-    const smudgeContainer = smudgeContainerRef.current || document.querySelector(".smudge-blobs");
 
-    if (!heroSection || !smudgeContainer) return;
+useEffect(() => {
+  const heroSection =
+    heroRef.current || document.querySelector(".hero");
 
-    const pointer = { x: 0, y: 0 };
-    const smoothPointer = { x: 0, y: 0 };
-    let hasStarted = false;
+  const smudgeSVG =
+    smudgeSvgRef.current ||
+    document.querySelector(".smudge-revealer");
 
-    function onPointerMove(x, y) {
-      if (!hasStarted) {
-        pointer.x = smoothPointer.x = x;
-        pointer.y = smoothPointer.y = y;
-        hasStarted = true;
-      } else {
-        pointer.x = x;
-        pointer.y = y;
-      }
-      requestSmudgeUpdate();
-    }
+  const smudgeContainer =
+    smudgeContainerRef.current ||
+    document.querySelector(".smudge-blobs");
 
-    const onMouseMove = function (e) {
-      const rect = heroSection.getBoundingClientRect();
-      onPointerMove(e.clientX - rect.left, e.clientY - rect.top);
-    };
+  if (!heroSection || !smudgeContainer) return;
 
-    const onTouchStart = function (e) {
-      if (e.touches && e.touches[0]) {
-        const rect = heroSection.getBoundingClientRect();
-        onPointerMove(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-      }
-    };
+  // --------------------------------------------------
+  // CONFIGURATION
+  // --------------------------------------------------
 
-    const onTouchMove = function (e) {
-      if (e.touches && e.touches[0]) {
-        const rect = heroSection.getBoundingClientRect();
-        onPointerMove(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
-      }
-    };
+  const SVG_NS = "http://www.w3.org/2000/svg";
 
-    heroSection.addEventListener("mousemove", onMouseMove);
-    heroSection.addEventListener("touchstart", onTouchStart, { passive: true });
-    heroSection.addEventListener("touchmove", onTouchMove, { passive: true });
+  // Hard limit prevents unlimited SVG nodes during
+  // prolonged or unusually fast pointer movement.
+  const MAX_ACTIVE_STAMPS = 180;
 
-    function matchSVGToViewport() {
-      if (smudgeSVG && heroSection) {
-        smudgeSVG.style.width = heroSection.clientWidth + "px";
-        smudgeSVG.style.height = heroSection.clientHeight + "px";
-      }
-    }
+  // A single animation coordinator manages every stamp.
+  const activeStamps = [];
 
+  const pointer = { x: 0, y: 0 };
+  const smoothPointer = { x: 0, y: 0 };
+
+  let hasStarted = false;
+  let isLoopRunning = false;
+  let rafId = null;
+  let isDestroyed = false;
+
+  // --------------------------------------------------
+  // SVG SIZE
+  // --------------------------------------------------
+
+  function matchSVGToViewport() {
+    if (!smudgeSVG || !heroSection) return;
+
+    smudgeSVG.style.width =
+      `${heroSection.clientWidth}px`;
+
+    smudgeSVG.style.height =
+      `${heroSection.clientHeight}px`;
+  }
+
+  matchSVGToViewport();
+
+  // ResizeObserver also catches size changes caused by
+  // layout changes, not just browser-window resizing.
+  const resizeObserver = new ResizeObserver(() => {
     matchSVGToViewport();
-    window.addEventListener("resize", matchSVGToViewport);
+  });
 
-    function stampSmudgeAt(x, y, radius) {
-      const circle = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "circle"
-      );
+  resizeObserver.observe(heroSection);
 
-      circle.setAttribute("cx", x);
-      circle.setAttribute("cy", y);
-      circle.setAttribute("r", radius);
-      circle.setAttribute("fill", "#fff");
+  // --------------------------------------------------
+  // POINTER INPUT
+  // --------------------------------------------------
 
-      smudgeContainer.prepend(circle);
+  function updatePointer(clientX, clientY) {
+    if (isDestroyed) return;
 
-      const animatedRadius = { current: radius };
+    const rect = heroSection.getBoundingClientRect();
 
-      const timeline = gsap.timeline({
-        onUpdate() {
-          circle.setAttribute("r", Math.max(0, animatedRadius.current));
-        },
-        onComplete() {
-          timeline.kill();
-          circle.remove();
-        },
-      });
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
-      timeline.to(animatedRadius, {
-        current: radius * SMUDGE_CONFIG.expandMultiplier,
-        duration: SMUDGE_CONFIG.expandTime,
-        ease: SMUDGE_CONFIG.expandEase,
-      });
-
-      timeline.to(
-        animatedRadius,
-        {
-          current: 0,
-          duration: SMUDGE_CONFIG.dissolveTime,
-          ease: SMUDGE_CONFIG.dissolveEase,
-        },
-        SMUDGE_CONFIG.dissolveStart
-      );
+    if (!hasStarted) {
+      pointer.x = smoothPointer.x = x;
+      pointer.y = smoothPointer.y = y;
+      hasStarted = true;
+    } else {
+      pointer.x = x;
+      pointer.y = y;
     }
 
-    let rafId = null;
-    let isLoopRunning = false;
+    requestSmudgeUpdate();
+  }
 
-    function requestSmudgeUpdate() {
-      if (!isLoopRunning) {
-        isLoopRunning = true;
-        rafId = requestAnimationFrame(update);
+  function onPointerMove(event) {
+    // Ignore non-primary mouse buttons.
+    if (
+      event.pointerType === "mouse" &&
+      event.buttons !== 0 &&
+      event.buttons !== 1
+    ) {
+      return;
+    }
+
+    updatePointer(event.clientX, event.clientY);
+  }
+
+  heroSection.addEventListener(
+    "pointermove",
+    onPointerMove,
+    { passive: true }
+  );
+
+  // --------------------------------------------------
+  // STAMP CREATION
+  // --------------------------------------------------
+
+  function stampSmudgeAt(x, y, radius) {
+    if (isDestroyed || radius <= 0) return;
+
+    const circle = document.createElementNS(
+      SVG_NS,
+      "circle"
+    );
+
+    circle.setAttribute("cx", x);
+    circle.setAttribute("cy", y);
+    circle.setAttribute("r", radius);
+    circle.setAttribute("fill", "#fff");
+
+    smudgeContainer.prepend(circle);
+
+    const now = performance.now();
+
+    const stamp = {
+      element: circle,
+      x,
+      y,
+      initialRadius: radius,
+      startTime: now,
+    };
+
+    activeStamps.push(stamp);
+
+    // Remove the oldest stamp if we hit the safety cap.
+    if (activeStamps.length > MAX_ACTIVE_STAMPS) {
+      const oldest = activeStamps.shift();
+
+      oldest?.element.remove();
+    }
+  }
+
+  // --------------------------------------------------
+  // CENTRALIZED STAMP ANIMATION
+  // --------------------------------------------------
+
+  function updateActiveStamps(now) {
+    const expandDuration =
+      SMUDGE_CONFIG.expandTime * 1000;
+
+    const dissolveDuration =
+      SMUDGE_CONFIG.dissolveTime * 1000;
+
+    const dissolveStart =
+      SMUDGE_CONFIG.dissolveStart * 1000;
+
+    const totalDuration = Math.max(
+      expandDuration,
+      dissolveStart + dissolveDuration
+    );
+
+    for (let i = activeStamps.length - 1; i >= 0; i--) {
+      const stamp = activeStamps[i];
+
+      const elapsed = now - stamp.startTime;
+
+      if (elapsed >= totalDuration) {
+        stamp.element.remove();
+        activeStamps.splice(i, 1);
+        continue;
       }
-    }
 
-    function update() {
-      if (hasStarted) {
-        smoothPointer.x += (pointer.x - smoothPointer.x) * SMUDGE_CONFIG.smoothing;
-        smoothPointer.y += (pointer.y - smoothPointer.y) * SMUDGE_CONFIG.smoothing;
+      const initialRadius = stamp.initialRadius;
 
-        const speed = Math.hypot(
-          pointer.x - smoothPointer.x,
-          pointer.y - smoothPointer.y
+      let radius = initialRadius;
+
+      // ----------------------------------------------
+      // EXPANSION
+      // Equivalent to GSAP power1.out
+      // ----------------------------------------------
+
+      if (elapsed < expandDuration) {
+        const progress = Math.min(
+          elapsed / expandDuration,
+          1
         );
 
-        if (speed > SMUDGE_CONFIG.movementThreshold) {
-          stampSmudgeAt(
-            smoothPointer.x,
-            smoothPointer.y,
-            speed * SMUDGE_CONFIG.sizeFromSpeed
-          );
-        }
+        const eased =
+          1 - Math.pow(1 - progress, 2);
 
-        if (speed < 0.005) {
-          isLoopRunning = false;
-          rafId = null;
-          return;
-        }
+        radius =
+          initialRadius +
+          (
+            initialRadius *
+            SMUDGE_CONFIG.expandMultiplier -
+            initialRadius
+          ) * eased;
+      } else {
+        radius =
+          initialRadius *
+          SMUDGE_CONFIG.expandMultiplier;
       }
 
-      rafId = requestAnimationFrame(update);
+      // ----------------------------------------------
+      // DISSOLVE
+      // Equivalent to GSAP power3.in
+      // ----------------------------------------------
+
+      if (elapsed >= dissolveStart) {
+        const dissolveProgress = Math.min(
+          (elapsed - dissolveStart) /
+            dissolveDuration,
+          1
+        );
+
+        const eased =
+          Math.pow(dissolveProgress, 3);
+
+        const expandedRadius =
+          initialRadius *
+          SMUDGE_CONFIG.expandMultiplier;
+
+        radius = expandedRadius * (1 - eased);
+      }
+
+      stamp.element.setAttribute(
+        "r",
+        Math.max(0, radius)
+      );
+    }
+  }
+
+  // --------------------------------------------------
+  // SINGLE ANIMATION LOOP
+  // --------------------------------------------------
+
+  function requestSmudgeUpdate() {
+    if (isDestroyed || isLoopRunning) return;
+
+    isLoopRunning = true;
+
+    rafId = requestAnimationFrame(update);
+  }
+
+  function update(now) {
+    if (isDestroyed) return;
+
+    let pointerIsMoving = false;
+
+    if (hasStarted) {
+      smoothPointer.x +=
+        (pointer.x - smoothPointer.x) *
+        SMUDGE_CONFIG.smoothing;
+
+      smoothPointer.y +=
+        (pointer.y - smoothPointer.y) *
+        SMUDGE_CONFIG.smoothing;
+
+      const speed = Math.hypot(
+        pointer.x - smoothPointer.x,
+        pointer.y - smoothPointer.y
+      );
+
+      if (
+        speed > SMUDGE_CONFIG.movementThreshold
+      ) {
+        stampSmudgeAt(
+          smoothPointer.x,
+          smoothPointer.y,
+          speed * SMUDGE_CONFIG.sizeFromSpeed
+        );
+      }
+
+      pointerIsMoving = speed >= 0.005;
     }
 
-    return () => {
-      window.removeEventListener("resize", matchSVGToViewport);
-      heroSection.removeEventListener("mousemove", onMouseMove);
-      heroSection.removeEventListener("touchstart", onTouchStart);
-      heroSection.removeEventListener("touchmove", onTouchMove);
-      if (rafId) cancelAnimationFrame(rafId);
-      while (smudgeContainer.firstChild) {
-        smudgeContainer.removeChild(smudgeContainer.firstChild);
-      }
-    };
-  }, []);
+    // Animate all existing stamps using the same RAF.
+    updateActiveStamps(now);
+
+    // Continue while the pointer is settling OR while
+    // stamps are still expanding/dissolving.
+    if (
+      pointerIsMoving ||
+      activeStamps.length > 0
+    ) {
+      rafId = requestAnimationFrame(update);
+    } else {
+      isLoopRunning = false;
+      rafId = null;
+    }
+  }
+
+  // --------------------------------------------------
+  // CLEANUP
+  // --------------------------------------------------
+
+  return () => {
+    isDestroyed = true;
+
+    heroSection.removeEventListener(
+      "pointermove",
+      onPointerMove
+    );
+
+    resizeObserver.disconnect();
+
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+
+    isLoopRunning = false;
+
+    // Remove all stamps and release their references.
+    for (const stamp of activeStamps) {
+      stamp.element.remove();
+    }
+
+    activeStamps.length = 0;
+
+    // Also clear anything left in the SVG group.
+    smudgeContainer.replaceChildren();
+  };
+}, []);
 
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden bg-white text-black selection:bg-black selection:text-white lg:h-screen lg:w-screen lg:overflow-hidden">
+    <main ref={driverRef} className="relative min-h-screen w-full overflow-x-hidden bg-white text-black selection:bg-black selection:text-white lg:h-screen lg:w-screen lg:overflow-x-hidden lg:overflow-y-auto">
       {/* ================= FIXED NAVBAR: ONLY HOME IN TOP LEFT ================= */}
       <nav className="fixed top-4 sm:top-5 left-4 sm:left-12 z-[1000] select-none">
         <Link
           href="/"
           data-transition-label="HOME"
-          className="hidden  lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700  uppercase cursor-pointer"
+          className="hidden lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700 border-y border-black p-2  uppercase cursor-pointer"
         >
-          <span className="text-black text-lg">&#91; </span>
+          {/* <span className="text-black text-lg">&#91; </span> */}
           <span className="hover:opacity-60 transition-opacity">←</span>
-          <ScrambleText className="hover:opacity-60 transition-opacity" text="HOME" />
-          <span className="text-black text-lg"> &#93;</span>
+          <KineticText className="hover:opacity-60 transition-opacity" text="HOME" />
+          {/* <span className="text-black text-lg"> &#93;</span> */}
         </Link>
       </nav>
 
@@ -384,7 +507,7 @@ export default function AboutPage() {
       {/* ================= CONTINUOUS SCROLL CONTAINER: VERTICAL ON MOBILE, HORIZONTAL ON LG ================= */}
       <div
         ref={containerRef}
-        className="relative w-full flex flex-col lg:h-screen lg:w-screen lg:overflow-x-auto lg:overflow-y-hidden lg:flex-row select-none no-scrollbar"
+        className="relative w-full flex flex-col lg:sticky lg:top-0 lg:h-screen lg:w-max lg:min-w-full lg:overflow-visible lg:flex-row select-none no-scrollbar will-change-transform"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* ----------------- SECTION 1: HERO (01) ----------------- */}
@@ -405,7 +528,7 @@ export default function AboutPage() {
 
           {/* Left Indicator */}
           <div className="hidden lg:block absolute left-10 lg:left-12 top-[42%] text-[11px] font-semibold tracking-[0.2em] text-neutral-600">
-            HORIZONTAL SCROLL →
+            JUST SCROLL 
           </div>
 
           {/* Center Main Stage Typography */}
@@ -448,10 +571,10 @@ export default function AboutPage() {
           {/* Bottom Bar */}
           <div className="w-full flex items-center justify-between z-20 pt-4">
             <div className="w-24">
-              <ScrambleText
-                text="Keep going"
-                className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors"
-              />
+              <span 
+              className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors">
+                Keep going
+              </span>
             </div>
 
             {/* Advance to next section */}
@@ -466,7 +589,7 @@ export default function AboutPage() {
               </span>
             </button>
 
-            <div className="flex justify-end"></div>
+            <div className="flex w-30"></div>
             <div className="absolute right-[15%] sm:right-[11%] w-5 h-5 sm:w-10 sm:h-10 rounded-full bg-black " />
           </div>
         </section>
@@ -475,12 +598,18 @@ export default function AboutPage() {
           ref={bookSectionRef}
           className="relative h-[45vh] sm:h-[55vh] lg:h-screen w-full lg:w-screen shrink-0 flex items-center justify-center overflow-hidden"
         >
-          <Image
-            src="/intro-book-white.webp"
-            alt="Intro book editorial cover"
-            width={1920} height={1080}
-            className="w-full h-full object-cover rotate-15"
-          />
+          <div className="relative h-full w-full">
+            <div className="absolute inset-0">
+              <Image
+                src="/intro-book-tilted.webp"
+                alt="Book"
+                width={1920}
+                height={1080}
+                priority
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
         </section>
 
         {/* ----------------- SECTION 2: THINGS THAT DON'T MAKE SENSE ----------------- */}
@@ -640,6 +769,7 @@ export default function AboutPage() {
         </section>
 
       </div>
+      <div ref={spacerRef} aria-hidden="true" className="hidden lg:block w-px pointer-events-none" />
     </main>
   );
 }

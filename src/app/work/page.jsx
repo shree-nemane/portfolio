@@ -2,13 +2,13 @@ import React from "react";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { projects } from "../../data/projects";
-import ScrambleText from "../../components/ScrambleText";
+import KineticText from "../../components/KineticText";
 import ParallaxCard from "../../components/ParallaxCard";
 
 /**
  * WorkPage (React Server Component)
  * Curated archive of production digital products, experiments, and technical skills.
- * Leverages client components (<ParallaxCard />, <ScrambleText />)
+ * Leverages client components (<ParallaxCard />, <KineticText />)
  * for micro-interactions while retaining server-rendered speed and SEO efficiency.
  */
 export default function WorkPage() {
@@ -57,7 +57,7 @@ export default function WorkPage() {
           <div className="flex flex-col gap-3 items-end">
             <h2 className="text-xs font-semibold tracking-widest text-neutral-400 uppercase">
               <span className="text-white text-lg">&#91; </span>
-              <ScrambleText text="Work" />
+              <KineticText text="Work" />
               <span className="text-white text-lg"> &#93;</span>
             </h2>
             <p className="text-sm sm:text-base text-end leading-relaxed text-neutral-300 font-normal max-w-xl">

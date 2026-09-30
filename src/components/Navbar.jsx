@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import ScrambleText from "./ScrambleText";
+import KineticText from "./KineticText";
 import LocalTime from "./LocalTime";
 
 const NAV_ITEMS = [
@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { id: "work", label: "Work", href: "/work", transitionLabel: "WORK GALLERY" },
   { id: "services", label: "Services", href: "/services", transitionLabel: "SERVICES" },
   { id: "about", label: "About", href: "/about", transitionLabel: "ABOUT ME" },
-  { id: "contact", label: "Contact", href: "mailto:contact@shreenemane06@gmail.com", isExternal: true },
+  { id: "contact", label: "Contact", href: "mailto:contact@shreenemane06@gmail.com" },
 ];
 
 export const MOBILE_NAV_ITEMS = [
@@ -78,7 +78,7 @@ export function MobileBottomNav({ theme = "dark", active = "" }) {
  * Navbar (Client Component)
  * Shared responsive top header across all portfolio routes.
  * Encapsulates dynamic local clock state, active route highlighting,
- * theme switching ('light' | 'dark'), hover ASCII character scramble effects,
+ * theme switching ('light' | 'dark'), hover kinetic character roll effects,
  * and renders the mobile bottom navigation pill for small viewports.
  */
 export default function Navbar({
@@ -94,9 +94,7 @@ export default function Navbar({
   };
   const items = NAV_ITEMS.filter(shouldShowItem);
 
-  const brandColor = isLight
-    ? "text-neutral-900 hover:text-neutral-600"
-    : "text-white hover:text-neutral-300";
+  const brandColor = isLight ? "text-neutral-900" : "text-white";
   const navColor = isLight ? "text-neutral-500" : "text-neutral-400";
   const activeColor = isLight ? "text-neutral-900" : "text-white";
   const hoverColor = isLight ? "hover:text-neutral-900" : "hover:text-white";
@@ -111,21 +109,11 @@ export default function Navbar({
     <>
       <header className={className}>
         <div className="w-full flex items-center justify-between">
-          {/* Left col: Brandmark / Home */}
+          {/* Left col: Static Brandmark */}
           <div className="w-auto sm:w-[28%] flex items-center">
-            {active === "home" ? (
-              <span className={`text-sm sm:text-base font-semibold tracking-tight ${brandColor} cursor-default`}>
-                <ScrambleText text="Let's Create" />
-              </span>
-            ) : (
-              <Link
-                href="/"
-                data-transition-label="HOME"
-                className={`text-sm sm:text-base font-semibold tracking-tight ${brandColor} transition-colors cursor-pointer`}
-              >
-                <ScrambleText text="Let's Create" />
-              </Link>
-            )}
+            <span className={`text-sm sm:text-base font-semibold tracking-tight ${brandColor} cursor-default`}>
+              Let&apos;s Create
+            </span>
           </div>
 
           {/* Time col at ~31% */}
@@ -144,22 +132,13 @@ export default function Navbar({
                   {index > 0 && (
                     <span className={`${dividerColor} font-light`}>/</span>
                   )}
-                  {item.isExternal ? (
-                    <a
-                      href={item.href}
-                      className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
-                    >
-                      <ScrambleText text={item.label} />
-                    </a>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      data-transition-label={item.transitionLabel}
-                      className={`${hoverColor} transition-colors duration-200 cursor-pointer`}
-                    >
-                      <ScrambleText text={item.label} />
-                    </Link>
-                  )}
+                  <Link
+                    href={item.href}
+                    data-transition-label={item.transitionLabel}
+                    className={`${hoverColor} transition-colors duration-200 cursor-pointer group/link`}
+                  >
+                    <KineticText text={item.label} />
+                  </Link>
                 </React.Fragment>
               ))}
             </nav>

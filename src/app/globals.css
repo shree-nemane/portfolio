@@ -65,3 +65,32 @@ body {
   animation-delay: 0.36s;
 }
 
+/* ========================================================================= */
+/* SWISS KINETIC TEXT ROLL                                                   */
+/* ========================================================================= */
+.kinetic-char-primary {
+  display: inline-block;
+  line-height: 1;
+  transition: transform 300ms cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateY(0%);
+}
+
+.kinetic-char-duplicate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-block;
+  line-height: 1;
+  transition: transform 300ms cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateY(140%);
+}
+
+:is(a:hover, a:focus-visible, button:hover, button:focus-visible, .kinetic-root:hover, .kinetic-root:focus-visible) .kinetic-char-primary {
+  transform: translateY(-140%);
+}
+
+:is(a:hover, a:focus-visible, button:hover, button:focus-visible, .kinetic-root:hover, .kinetic-root:focus-visible) .kinetic-char-duplicate {
+  transform: translateY(0%);
+}
+
+

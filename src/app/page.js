@@ -48,7 +48,7 @@ export default function Home() {
           {/* Left: Refined, Professional Name & Title */}
           <div className="flex flex-col gap-2">
             <span className="text-xs sm:text-sm font-medium tracking-widest text-neutral-500 uppercase pl-16 sm:pl-32 md:pl-40">
-              Product &amp; Visual Designer
+              Creative Developer
             </span>
 
             <div className="relative inline-block">

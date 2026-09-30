@@ -19,7 +19,7 @@ import { getAdjacentProjects } from "../data/projects";
  *  - Android apps rendered in native portrait frames (no fake desktop containers)
  *  - All visual blocks (moodboards, palettes, typography, quotes) collapse cleanly when omitted
  */
-export default function ProjectEditorialView({ project, onBack }) {
+export default function ProjectEditorialView({ project }) {
   if (!project) return null;
 
   const { next } = getAdjacentProjects(project.slug);
@@ -47,6 +47,7 @@ export default function ProjectEditorialView({ project, onBack }) {
   const mutedTextClass = isExperiment ? "text-neutral-400" : "text-neutral-500";
   const bodyTextClass = isExperiment ? "text-neutral-300" : "text-neutral-600";
   const borderRuleClass = isExperiment ? "border-white/10" : "border-neutral-200";
+  const backbuttonborder = isExperiment ? "border-white" : "border-black/20";
   const buttonClasses = isExperiment
     ? "bg-white text-neutral-900 hover:bg-neutral-200 active:scale-95 transition-all duration-200 rounded-full px-5 py-2 text-xs font-medium tracking-wide inline-flex items-center gap-1.5 shadow-2xs"
     : "bg-neutral-900 text-white hover:bg-neutral-800 active:scale-95 transition-all duration-200 rounded-full px-5 py-2 text-xs font-medium tracking-wide inline-flex items-center gap-1.5 shadow-2xs";
@@ -57,27 +58,15 @@ export default function ProjectEditorialView({ project, onBack }) {
       {/* TOP HEADER NAVIGATION                                                     */}
       {/* ========================================================================= */}
       <nav className="w-full max-w-6xl mx-auto pt-8 sm:pt-12 px-6 sm:px-10 flex items-center justify-between select-none">
-        {onBack ? (
-          <button
-            type="button"
-            onClick={onBack}
-            className={`inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest ${mutedTextClass} hover:opacity-100 transition-opacity cursor-pointer`}
-          >
-            <span className="font-sans text-base">&#91;</span>
-            <span>← Back to gallery</span>
-            <span className="font-sans text-base">&#93;</span>
-          </button>
-        ) : (
-          <Link
-            href={`/work?project=${project.slug}`}
-            data-transition-label="WORK GALLERY"
-            className={`inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest ${mutedTextClass} hover:opacity-100 transition-opacity cursor-pointer`}
-          >
-            <span className="font-sans text-base">&#91;</span>
-            <span>← Back to gallery</span>
-            <span className="font-sans text-base">&#93;</span>
-          </Link>
-        )}
+        <Link
+          href={`/work?project=${project.slug}`}
+          data-transition-label="WORK GALLERY"
+          className={`inline-flex items-center gap-2 text-xs font-mono uppercase border-y ${backbuttonborder} p-2 tracking-widest ${mutedTextClass} hover:opacity-100 transition-opacity cursor-pointer`}
+        >
+          {/* <span className="font-sans text-base">&#91;</span> */}
+          <span>← Back to gallery</span>
+          {/* <span className="font-sans text-base">&#93;</span> */}
+        </Link>
 
         <div className="flex items-center gap-4">
           {project.repoUrl && (
