@@ -1,62 +1,58 @@
 # Shree Nemane &mdash; Portfolio
 
-> **Product & Visual Designer / Creative Developer**  
-> Crafting thoughtful digital interfaces, design systems, and brand experiences for forward-thinking products and studios.
+> **Creative Developer & Software Engineer**  
+> *Your idea, built and shipped.*
 
-A high-performance, minimalist Swiss editorial digital portfolio showcasing production client platforms, brand identities, mobile applications, and technical lab experiments.
+A high-performance, minimalist Swiss editorial digital portfolio showcasing production client platforms, mobile applications, desktop systems tools, and machine learning research.
 
 ---
 
 ## About Me
 
-I am a multidisciplinary designer and creative developer focused on the intersection of systematic visual design, brutalist typographic clarity, and technical implementation. I build digital products from concept to production &mdash; translating complex business requirements into intuitive, memorable interfaces.
+A developer who can't leave a problem alone. I get obsessed with how software works and why it feels the way it does, and I'm only happy when I understand something well enough to build it properly. Every project in this archive is something I designed, built, and shipped end-to-end—focusing on clean ideas, fast software, and digital experiences that have a strong point of view.
 
 ### Core Disciplines
 
-- **Digital Product Design:** Design systems, responsive web apps, mobile UI/UX, interaction architecture.
-- **Visual & Brand Identity:** Typographic systems, art direction, editorial layouts, vector iconography.
-- **Creative Engineering:** Frontend architecture, interactive micro-motion, performant transitions, and bespoke tooling.
+- **Web Development & Architecture:** React, Next.js, Tailwind CSS, component-driven UI architecture, and high-performance static delivery.
+- **Mobile Development:** React Native and Kotlin for Android and iOS, relationship management tools, and offline-first workflows.
+- **Backend & Automation:** Node.js, Python, PL/pgSQL, API design, and automated workflow pipelines.
 
 ---
 
 ## Featured Work
 
-| Project | Discipline | Role | Impact & Focus |
+| Project | Discipline / Category | Role | Stack & Impact |
 | :--- | :--- | :--- | :--- |
-| **At Ease Pest Control** | Business Platform | Web Development | Modern, conversion-focused service platform featuring clear service tiers, customer proof points, and friction-free inquiry flows. |
-| **Bymer Elastomers** | Industrial Manufacturing | Web Development | High-credibility engineering brand presence with structured product catalog navigation and technical specification sheets. |
-| **Yajurved Construction** | Real Estate & Architecture | Web Development | Clean architectural showcase highlighting property timelines, construction quality benchmarks, and trust signals. |
-| **Stay In Touch** | Mobile Application | Android & Backend Engineering | Personal relationship management utility emphasizing local data security, deliberate communication reminders, and offline availability. |
-| **HerdHelp** | Agricultural Management Platform | UI/UX & Frontend | Complete UX revamp for a digital farm platform, simplifying herd logs, treatment schedules, and financial overviews. |
-| **Forensic Audio Intelligence** | Forensic AI / XAI Research | Research & Full-Stack | Explainable forensic audio intelligence platform analyzing vocal biometric authenticity and synthetic speech artifacts. |
-| **Universal Project Launcher** | Desktop System Tool | Systems Engineering | Zero-latency workflow orchestration utility streamlining local repository management and rapid developer bootstrapping. |
+| **At Ease Pest Control** | Service Business Platform | Web Development | React, Tailwind CSS & Framer Motion. Conversion-focused service platform featuring clear service tiers, customer proof points, and friction-free inquiry flows. |
+| **Bymer Elastomers** | Industrial B2B Manufacturing | Web Development | Next.js, React & Tailwind CSS. High-credibility engineering brand presence with structured product catalogs, compound directories, and machinery specifications. |
+| **Yajurved Construction** | Real Estate & Construction | Web Development | React, Vite, Tailwind CSS & i18next. Multilingual corporate platform presenting redevelopment, land investment, and property documentation services across Indian languages. |
+| **Stay In Touch** | Mobile Application | Android & Backend Engineering | TypeScript, Kotlin & PL/pgSQL. Relationship management utility emphasizing intentional communication, local persistence, and offline usability. |
+| **HerdHelp** | Agricultural Management Platform | UI/UX & Frontend Development | React, Redux, Material UI & Tailwind CSS. Complete interface revamp for an agricultural management platform, streamlining herd tracking, health schedules, and farm finances. |
+| **Forensic Audio Intelligence** | Forensic AI & Explainable ML | AI Research & Full-Stack | Multi-agent audio deepfake detection engine combining 5 specialist agents, consensus reasoning, exact SHAP attribution, and deterministic forensic narratives. |
+| **Universal Project Launcher** | Desktop Application & Systems | Systems Engineering | Tauri v2, Rust & React 19. Background-resident Windows workflow launcher with global hotkey invocation, detached Win32 process spawning, and sub-millisecond focus handling. |
 
 ---
 
 ## Services & Capabilities
 
-- **Web Experiences:** High-converting marketing websites, brand landing pages, portfolio platforms, and interactive visual narratives.
-- **Mobile Experiences:** Clean, useful Android & iOS application designs with intuitive gesture-driven flows.
-- **Custom Workflow Solutions:** Bespoke developer tools, desktop utilities, automated pipelines, and system integrations.
+- **Web Experiences:** Bring your idea online, build websites from scratch, create memorable interactive landing pages, and turn designs into shipped reality.
+- **Mobile Experiences:** Build native and cross-platform apps for your ideas with simple, useful, and responsive experiences across Android and iOS.
+- **Custom Solutions:** Build custom desktop applications, automate repetitive developer and business tasks, and connect workflows into cohesive pipelines.
 
 ---
 
-## Architecture & Craft
+## Technical Architecture & Craft
 
-The portfolio is built with an editorial, publication-inspired sensibility that prizes typographic restraint and performance over decorative excess:
-
-- **Minimalist Swiss Editorial System:** Built with disciplined typographic hierarchies utilizing Plus Jakarta Sans and JetBrains Mono.
-- **Coordinated Screen Transitions:** Dual-stage shutter curtains built with GSAP that coordinate with Next.js router events to deliver deliberate, cinematic page switches.
-- **Inertial Editorial Scroll:** Desktop horizontal rail on the About page powered by an inertial RAF/LERP coordinator with an interactive cursor-driven liquid mask.
-- **Modern Foundation:** Built on **Next.js 16**, **React 19**, and **Tailwind CSS v4** for static generation, zero layout shifts, and rapid delivery.
+- **Modern Foundation:** Built on **Next.js 16**, **React 19**, and **Tailwind CSS v4** with pure React Server Components (RSC) across static pages and case studies for near-instant response times.
+- **Minimalist Swiss Editorial System:** Disciplined monochrome aesthetic utilizing Plus Jakarta Sans and JetBrains Mono with zero layout shifts.
 
 ---
 
 ## Let's Connect
 
-Available for select freelance projects, design systems consulting, and creative collaborations.
+Available for freelance projects, full-time engineering roles, and technical collaborations.
 
-- **Email:** [contact@shreenemane06@gmail.com](mailto:contact@shreenemane06@gmail.com)
+- **Website:** [shreenemane.pages.dev](https://shreenemane.pages.dev)
+- **Email:** [shreenemane06@gmail.com](mailto:shreenemane06@gmail.com)
 - **GitHub:** [@shree-nemane](https://github.com/shree-nemane)
-- **LinkedIn:** [Shree Nemane](https://linkedin.com)
-- **Dribbble:** [Shree Nemane](https://dribbble.com)
+- **LinkedIn:** [Shreedarshan Nemane](https://www.linkedin.com/in/shreedarshan-nemane-455417329)

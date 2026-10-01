@@ -13,7 +13,6 @@ export const projects = [
     tagline: "Eco-Friendly Pest Management Services Website",
     description:
       "A responsive marketing website for At Ease Pest Control, showcasing residential and commercial pest management services, customer reviews, service areas, company information, and contact options.",
-    // quote: "-",
     logo: "/work-assets/at_ease.png",
     cardBg: "bg-white",
     image: "/work-slug-assets/atease-ui.webp",
@@ -42,28 +41,6 @@ export const projects = [
       "The business needed a professional online presence to clearly communicate its pest control services, build customer trust, highlight service locations, and make it easier for prospective customers to get in touch.",
     solution:
       "We developed a responsive React website with dedicated sections for company information, pest control services, completed work, customer reviews, service locations, contact forms, and responsive navigation.",
-    secondaryImage: "",
-    secondaryCaption: "-",
-    gallery: [
-      {
-        image: "",
-        title: "Service Overview",
-        caption:
-          "A structured presentation of residential and commercial pest control services, including termite and rodent control.",
-      },
-      {
-        image: "",
-        title: "Customer Reviews",
-        caption:
-          "A testimonials section designed to reinforce trust and demonstrate customer satisfaction.",
-      },
-      {
-        image: "",
-        title: "Location & Contact Experience",
-        caption:
-          "Service-area information and contact interactions help prospective customers connect with the business.",
-      },
-    ],
   },
   {
     id: "bymer-elastomers",
@@ -111,28 +88,6 @@ export const projects = [
       "Bymer needed a modern industrial website to clearly communicate its manufacturing expertise, extensive elastomer product range, certifications, machinery capabilities, industries served, and long-standing experience to B2B customers worldwide.",
     solution:
       "We developed a structured Next.js corporate platform with product and compound catalogs, machinery details, industry pages, certifications, company history, awards, testimonials, contact forms, career information, FAQs, and responsive navigation.",
-    secondaryImage: "",
-    secondaryCaption: "-",
-    gallery: [
-      {
-        image: "",
-        title: "Industrial Product Catalog",
-        caption:
-          "A searchable product experience covering automotive rubber components, low-pressure hoses, industrial rubber, extruded profiles, dampers, and compounds.",
-      },
-      {
-        image: "",
-        title: "Manufacturing Machinery & Capabilities",
-        caption:
-          "Dedicated pages present Bymer's molding, extrusion, calendaring, mixing, vulcanization, and utility machinery.",
-      },
-      {
-        image: "",
-        title: "Corporate Manufacturing Platform",
-        caption:
-          "The website communicates the company's history, certifications, industries, global customers, manufacturing plants, testimonials, and contact information.",
-      },
-    ],
   },
   {
     id: "yajurved-construction",
@@ -148,10 +103,9 @@ export const projects = [
     tagline: "Building Dreams. Developing Lands. Redefining Spaces.",
     description:
       "A multilingual corporate website for Yajurved Construction Pvt. Ltd., presenting the company's real estate investment, construction, redevelopment, financial consultancy, property documentation, and litigation consultancy services.",
-    // quote: "-",
     logo: "/work-assets/yajurved_construction.png",
     cardBg: "bg-white",
-    image: "/work-slug-assets/yajurved-construction-ui.png",
+    image: "/work-slug-assets/yajurved-construction-ui.jpg",
     alt: "",
     discipline: "REAL ESTATE & CONSTRUCTION WEBSITE",
     metrics: [
@@ -179,28 +133,6 @@ export const projects = [
       "Yajurved Construction needed a professional digital presence capable of communicating its broad range of real estate, construction, redevelopment, financial, and property-related services to potential clients and partners.",
     solution:
       "We created a responsive, multilingual corporate website with dedicated pages for the company, services, financial planning, projects, contact details, client feedback, social content, and localized English, Hindi, and Marathi experiences.",
-    // secondaryImage: "",
-    // secondaryCaption: "-",
-    // gallery: [
-    //   {
-    //     image: "",
-    //     title: "Corporate Construction Website",
-    //     caption:
-    //       "A polished digital platform introducing Yajurved Construction and its real estate and development capabilities.",
-    //   },
-    //   {
-    //     image: "",
-    //     title: "Construction & Redevelopment Services",
-    //     caption:
-    //       "Service sections covering construction management, land development, redevelopment, property documentation, and litigation consultancy.",
-    //   },
-    //   {
-    //     image: "",
-    //     title: "Multilingual User Experience",
-    //     caption:
-    //       "Localized content in English, Hindi, and Marathi helps the company communicate with a wider Indian audience.",
-    //   },
-    // ],
   },
   {
     id: "stay-in-touch",
@@ -213,11 +145,9 @@ export const projects = [
     role: "Android Developement & Backend Engineering",
     client: "Personal Project",
     repoUrl:'https://github.com/shree-nemane/SIT',
-    // liveUrl: "https://github.com/shree-nemane/SIT",
     tagline: "Relationship Management and Intentional Connection Platform",
     description:
       "Stay In Touch is a relationship-focused application designed to help users organize meaningful connections and maintain regular contact with friends, family, and important people in their lives.",
-    quote: "-",
     logo: "/work-assets/stay_in_touch.png",
     cardBg: "bg-white",
     image: "/work-slug-assets/sit-ui.webp",
@@ -241,7 +171,6 @@ export const projects = [
     typography: {
       display: "Manrope",
       body: "Caveat ",
-      // accent: "Caveat Medium",
       sample: "Stay connected with the people who matter most",
     },
     challenge:
@@ -279,13 +208,9 @@ export const projects = [
   ],
   palette: [
     { name: "Herd Green", hex: "#009A48", role: "Primary Brand Color" },
-    // { name: "Soft Mint", hex: "#D6F5D6", role: "Primary Highlight Surface" },
-    // { name: "Pale Green", hex: "#EAF7E9", role: "Secondary Background" },
     { name: "Charcoal Black", hex: "#050511", role: "Primary Typography" },
     { name: "Neutral Gray", hex: "#898B9A", role: "Secondary Typography" },
     { name: "Soft Layout Gray", hex: "#F0F0F0", role: "Page Background" },
-    // { name: "Alert Yellow", hex: "#FFDF00", role: "Warning & Attention State" },
-    // { name: "Success Green", hex: "#27AE60", role: "Positive Status State" },
   ],
   typography: {
     display: "Poppins Bold",
@@ -297,28 +222,6 @@ export const projects = [
     "The existing HerdHelp experience contained a wide range of livestock management features, but the interface needed a clearer visual system and more intuitive presentation to make farm records, animal health data, financial information, alerts, and reports easier to understand and use.",
   solution:
     "We revamped the user interface with a cleaner component structure, consistent Poppins typography, a green-centered agricultural color system, responsive layouts, redesigned feature sections, improved navigation, clearer cards, updated download sections, and a more polished presentation of the HerdHelp platform.",
-  secondaryImage: "",
-  secondaryCaption: "-",
-  gallery: [
-    {
-      image: "",
-      title: "Livestock Dashboard Experience",
-      caption:
-        "A redesigned interface for viewing herd information, animal records, health activity, weight data, and profitability insights.",
-    },
-    {
-      image: "",
-      title: "Animal Health & Record Management",
-      caption:
-        "Organized workflows for tracking medications, breeding, birthing, diseases, weights, and individual animal history.",
-    },
-    {
-      image: "",
-      title: "Finance, Alerts & Reports",
-      caption:
-        "Improved UI patterns for expense tracking, financial records, reminders, alerts, reports, and tutorial content.",
-    },
-  ],
 },
   {
     id: "deepfake-xai-explanation",

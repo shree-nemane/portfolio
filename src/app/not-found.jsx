@@ -25,10 +25,8 @@ export default function NotFound() {
           data-transition-label="HOME"
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-300 border-y border-white py-2 hover:text-white uppercase transition-colors"
         >
-          {/* <span className="text-white text-lg">&#91; </span> */}
           <span className="hover:opacity-60 transition-opacity">←</span>
           <KineticText text="RETURN HOME" />
-          {/* <span className="text-white text-lg"> &#93;</span> */}
         </Link>
       </div>
 

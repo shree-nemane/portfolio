@@ -5,6 +5,21 @@ import { projects } from "../../data/projects";
 import KineticText from "../../components/KineticText";
 import ParallaxCard from "../../components/ParallaxCard";
 
+export const metadata = {
+  title: "Work & Production Cases",
+  description:
+    "Curated archive of production digital products, mobile applications, desktop systems, and software engineering experiments by Shree Nemane.",
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    title: "Work & Production Cases | Shree Nemane",
+    description:
+      "Curated archive of production digital products, mobile applications, desktop systems, and software engineering experiments by Shree Nemane.",
+    url: "/work",
+  },
+};
+
 /**
  * WorkPage (React Server Component)
  * Curated archive of production digital products, experiments, and technical skills.
@@ -28,10 +43,10 @@ export default function WorkPage() {
   };
 
   const skills = [
-    { skill: "Frontend Development", tech: "React, Next.js, Tailwind CSS" },
-    { skill: "Android Development", tech: "React Native" },
+    { skill: "Web Development", tech: "React, Next.js, Tailwind CSS" },
+    { skill: "Mobile Development", tech: "React Native for Android and iOS" },
+    { skill: "Backend & Automation", tech: "Node.js, Python" },
     { skill: "Interactive Motion", tech: "GSAP, Canvas" },
-    { skill: "Full-Stack Web", tech: "Node.js, Python" },
   ];
 
   return (
@@ -61,20 +76,12 @@ export default function WorkPage() {
               <span className="text-white text-lg"> &#93;</span>
             </h2>
             <p className="text-sm sm:text-base text-end leading-relaxed text-neutral-300 font-normal max-w-xl">
-              I specialize in component-driven user interfaces, brand design systems, and tactile web experiences. Combining minimalist ergonomics with computational design, I create thoughtful digital flagship platforms and design tools for forward-thinking products and ateliers.
-            </p>
+              Every project here is something I designed, built, and shipped, from business websites and a mobile app to a desktop tool and a machine learning system. Some earn money for their owners, others are experiments I couldn't stop thinking about. Open any card to see the problem, what I built, and how it turned out.
+              </p>
           </div>
 
           {/* Social / Direct Channels */}
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm text-neutral-400 pt-1">
-            {/* <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
-            >
-              Twitter / X
-            </a> */}
             <a
               href="https://github.com/shree-nemane"
               target="_blank"
@@ -83,16 +90,8 @@ export default function WorkPage() {
             >
               GitHub
             </a>
-            {/* <a
-              href="https://dribbble.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
-            >
-              Dribbble
-            </a> */}
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/shreedarshan-nemane-455417329"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors duration-150"
@@ -100,7 +99,7 @@ export default function WorkPage() {
               LinkedIn
             </a>
             <a
-              href="mailto:contact@shreenemane06@gmail.com"
+              href="mailto:shreenemane06@gmail.com"
               className="hover:text-white transition-colors duration-150"
             >
               Email
@@ -158,11 +157,8 @@ export default function WorkPage() {
         <section className="flex flex-col gap-6 pt-6 border-t border-white/10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div className="flex flex-col gap-1">
-              {/* <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-                01. CURATED CLIENT WORK
-              </span> */}
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                Production Products &amp; Platforms
+               Products &amp; Platforms
               </h3>
             </div>
             <span className="text-xs text-neutral-400 font-mono">
@@ -211,9 +207,6 @@ export default function WorkPage() {
         <section className="flex flex-col gap-6 pt-6 border-t border-white/10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div className="flex flex-col gap-1">
-              {/* <span className="text-[11px] font-mono tracking-widest text-neutral-400 uppercase">
-                02. CREATIVE CODE &amp; PROTOTYPES
-              </span> */}
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
                 Explorations
               </h3>

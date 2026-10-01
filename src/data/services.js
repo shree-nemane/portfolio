@@ -15,35 +15,18 @@ export const services = [
       "Improve Existing Websites",
     ],
   },
-  // {
-  //   id: "web-development",
-  //   title: "WEB DEVELOPMENT",
-  //   column1: [
-  //     "Frontend Development",
-  //     "Next.js Development",
-  //     "Backend Integration",
-  //   ],
-  //   column2: [
-  //     "Speed Optimization",
-  //     "SEO Optimization",
-  //     "Website Maintenance",
-  //   ],
-  // },
- {
+  {
     id: "mobile-experiences",
     title: "MOBILE EXPERIENCES",
 
     column1: [
       "Build Apps for Your Ideas",
       "Create Simple, Useful Experiences",
-      // "Turn Your Workflow Into an App",
     ],
 
     column2: [
       "Turn Your Workflow Into an App",
       "Build for Android & iOS",
-      // "Connect Your App to the Cloud",
-      // "Make Your App Work Offline",
     ],
   },
   {

@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { id: "work", label: "Work", href: "/work", transitionLabel: "WORK GALLERY" },
   { id: "services", label: "Services", href: "/services", transitionLabel: "SERVICES" },
   { id: "about", label: "About", href: "/about", transitionLabel: "ABOUT ME" },
-  { id: "contact", label: "Contact", href: "mailto:contact@shreenemane06@gmail.com" },
+  { id: "contact", label: "Contact", href: "mailto:shreenemane06@gmail.com" },
 ];
 
 export const MOBILE_NAV_ITEMS = [
@@ -147,7 +147,7 @@ export default function Navbar({
           {/* Book a call button */}
           <div className="flex items-center justify-end">
             <a
-              href="mailto:contact@shreenemane06@gmail.com?subject=Project%20Inquiry"
+              href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
               className={buttonClasses}
             >
             Book a call

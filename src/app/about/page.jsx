@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap } from "gsap";
 import KineticText from "../../components/KineticText";
 import { MobileBottomNav } from "../../components/Navbar";
 import LocalTime from "../../components/LocalTime";
@@ -157,6 +156,15 @@ export default function AboutPage() {
       driver.scrollTo({ top: section2Start, behavior: "smooth" });
     } else {
       (bookSectionRef.current || section2Ref.current)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const scrollToTop = () => {
+    const driver = driverRef.current;
+    if (driver && window.innerWidth >= 1024) {
+      driver.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -494,10 +502,8 @@ useEffect(() => {
           data-transition-label="HOME"
           className="hidden lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700 border-y border-black p-2  uppercase cursor-pointer"
         >
-          {/* <span className="text-black text-lg">&#91; </span> */}
           <span className="hover:opacity-60 transition-opacity">←</span>
           <KineticText className="hover:opacity-60 transition-opacity" text="HOME" />
-          {/* <span className="text-black text-lg"> &#93;</span> */}
         </Link>
       </nav>
 
@@ -643,7 +649,7 @@ useEffect(() => {
                 {/* Mobile title */}
                 <div className="lg:hidden shrink-0 text-left select-none pb-8">
                   <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-black leading-[0.95]">
-                    Things that don&apos;t make sense
+                    Open tabs
                   </h2>
                 </div>
 
@@ -655,11 +661,11 @@ useEffect(() => {
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
                       <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
-                        Complexity of Thinking
+                        Build the boring parts properly.
                       </h3>
                       <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
-                        We ship megabytes of JavaScript to render static text that basic HTML solved decades ago. Modern web engineering has developed an obsession with architectural ceremonies—wrapping simple concepts in recursive layers of indirection under the guise of future-proofing, before validating if anyone actually needs it.
-                      </p>
+                        Forms, error messages, empty states, and loading screens are where people decide whether a product cares about them. Nobody shows these off, and they're the first thing users notice when they go wrong. I give them the same attention as the homepage.
+                        </p>
                     </div>
                   </div>
 
@@ -670,11 +676,11 @@ useEffect(() => {
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
                       <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
-                        Sterile Uniformity
+                        Complexity is easy. Simplicity is the hard part.
                       </h3>
                       <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
-                        Every digital product now uses the same rounded cards, the same muted gray palette, and the same safe typography. In chasing frictionless usability and design system dogmatism, we have engineered personality and human soul out of the web. Good design is opinionated, not an aggregate of market averages.
-                      </p>
+                        Adding is easy. More layers, more animations, more features, more color: it all feels like making the design better. But after building several websites and apps, I've learned that people care about how easy something is to understand, not how much it shows off. The designs that scream for attention from every side usually end up confusing people more than helping them. Simple is harder to make, and it's the part users actually feel.
+                        </p>
                     </div>
                   </div>
 
@@ -685,11 +691,11 @@ useEffect(() => {
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
                       <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
-                        Invisible Craft
+                        Have an opinion.
                       </h3>
                       <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
-                        Obsessing over invisible bezier curves and 60fps micro-delights while the app takes four seconds to load over mobile networks. The highest form of luxury in software isn&apos;t decorative flair—it is instantaneous responsiveness, predictability, and honest restraint.
-                      </p>
+                        Every product is competing for the same attention, and most answer by doing the same things: more features, cleaner UI, trendier styles. The result is a web where everything is good and nothing is memorable. Design shines when it stops trying to match the field and starts showing what's different about the thing it's presenting.
+                        </p>
                     </div>
                   </div>
                 </div>
@@ -700,7 +706,7 @@ useEffect(() => {
           {/* Right Part: Stagnant Title (Desktop) */}
           <div className="absolute top-10 right-10 hidden lg:flex w-[44%] shrink-0 justify-end text-right select-none pointer-events-none self-start">
             <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] xl:text-[7.5rem] font-medium tracking-tight text-black leading-[0.92]">
-              Thoughts
+               Open tabs
             </h2>
           </div>
 
@@ -757,15 +763,42 @@ useEffect(() => {
           </svg>
         </section>
 
-        {/* ----------------- SECTION 4: OUTRO ----------------- */}
-        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black flex items-center justify-center p-6 sm:p-12 overflow-hidden select-none">
-          <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tight [word-spacing:0.5rem] sm:[word-spacing:1rem] uppercase text-black text-center">
-            <span className="block overflow-hidden">
-              <span className="inline-block animate-mask-slide-up [animation-delay:150ms]">
-                its done bro
-              </span>
-            </span>
-          </h2>
+        {/* ----------------- SECTION 4: OUTRO (THE DIRECT ACTION FINALE) ----------------- */}
+        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black flex flex-col justify-between p-6 sm:p-12 lg:p-16 overflow-hidden select-none">
+          {/* Top Index Tag */}
+          <div className="w-full flex items-center justify-end text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-neutral-500 uppercase z-10">
+            <span>ARCHIVE CONCLUDED</span>
+          </div>
+
+          {/* Center Stage: Concluding Statement + Direct Actions */}
+          <div className="my-auto max-w-4xl w-full mx-auto flex flex-col items-center text-center py-8 z-10">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-black leading-[1.08] mb-6 sm:mb-8">
+              That&apos;s the whole site.<br />
+              If something here sparked an idea,<br />
+              tell me about it.
+            </h2>
+
+            {/* Direct Action Cluster */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-2">
+              <a
+                href="mailto:shreenemane06@gmail.com?subject=Project%20Idea"
+                className="bg-black text-white hover:bg-neutral-800 active:scale-95 transition-all rounded-full px-6 sm:px-8 py-3 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
+              >
+                <span>Tell Me About It</span>
+                <span>→</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={scrollToTop}
+                aria-label="Scroll back to the beginning"
+                className="group inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-600 hover:text-black border border-neutral-300 hover:border-black rounded-full px-5 py-3 transition-colors cursor-pointer"
+              >
+                <span>↑</span>
+                <span>Back to Start</span>
+              </button>
+            </div>
+          </div>
         </section>
 
       </div>

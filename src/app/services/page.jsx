@@ -1,8 +1,21 @@
 import React from "react";
-import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { services } from "../../data/services";
-import KineticText from "@/components/KineticText";
+
+export const metadata = {
+  title: "Services & Capabilities",
+  description:
+    "Design and full-stack web engineering services by Shree Nemane. Building fast, responsive websites, mobile applications, and custom systems automation tools.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Services & Capabilities | Shree Nemane",
+    description:
+      "Design and full-stack web engineering services by Shree Nemane. Building fast, responsive websites, mobile applications, and custom systems automation tools.",
+    url: "/services",
+  },
+};
 
 /**
  * ServicesPage (React Server Component)
@@ -73,18 +86,62 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {/* Subtle Footer Bridge */}
-      <footer className="w-full pt-8 pb-32 sm:py-8 px-[2%] flex items-center justify-end text-sm text-neutral-600 select-none">
-        <Link
-          href="/work"
-          data-transition-label="WORK GALLERY"
-          className="text-white p-2 px-4 text-md border-y border-white hover:text-neutral-400 transition-colors"
-        >
-          {/* <span className="text-white text-lg">&#91; </span> */}
-              <KineticText text="Explore Work Gallery →" />
+      {/* ========================================================================= */}
+      {/* ARCHITECTURAL STATEMENT CONTACT FOOTER                                    */}
+      {/* ========================================================================= */}
+      <footer className="w-full max-w-7xl mx-auto px-5 sm:px-12 pt-16 sm:pt-24 pb-32 sm:pb-20 select-none">
+        <div className=" pt-12 sm:pt-16 flex flex-col">
+          {/* Availability Indicator */}
+          <div className="flex items-center gap-2.5 mb-4 sm:mb-6">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-neutral-400">
+              AVAILABLE FOR NEW INITIATIVES
+            </span>
+          </div>
 
-          {/* <span className="text-white text-lg"> &#93;</span> */}
-        </Link>
+          {/* Statement Headline */}
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-8 sm:mb-12 max-w-4xl leading-[1.05]">
+            LET&apos;S BUILD SOMETHING TOGETHER.
+          </h2>
+
+          {/* Action Row */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-2">
+            {/* Direct Email */}
+            <a
+              href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
+              className="text-base sm:text-xl md:text-2xl font-medium text-neutral-300 hover:text-white transition-colors underline decoration-neutral-700 hover:decoration-white underline-offset-8 break-all sm:break-normal"
+            >
+              Contact at: shreenemane06@gmail.com
+            </a>
+
+            {/* CTA & Channels */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <a
+                href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
+                className="bg-white text-neutral-950 hover:bg-neutral-200 active:scale-95 transition-all rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
+              >
+                <span>Start a Project</span>
+                <span>→</span>
+              </a>
+              <a
+                href="https://github.com/shree-nemane"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-400 hover:text-white border border-white/20 hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
+              >
+                GitHub ↗
+              </a>
+              <a
+                href="https://www.linkedin.com/in/shreedarshan-nemane-455417329"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-400 hover:text-white border border-white/20 hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
+              >
+                LinkedIn ↗
+              </a>
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   );

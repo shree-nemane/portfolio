@@ -48,7 +48,7 @@ export default function Home() {
           {/* Left: Refined, Professional Name & Title */}
           <div className="flex flex-col gap-2">
             <span className="text-xs sm:text-sm font-medium tracking-widest text-neutral-500 uppercase pl-16 sm:pl-32 md:pl-40">
-              Creative Developer
+              Your idea, built and shipped.
             </span>
 
             <div className="relative inline-block">
@@ -80,10 +80,38 @@ export default function Home() {
           </div>
 
           {/* Right: Bio / Introduction */}
-          <div className="flex flex-col lg:text-right gap-3 lg:max-w-[420px] pb-1">
-            <p className="text-sm sm:text-base leading-relaxed text-neutral-600 font-normal">
-              Crafting thoughtful digital interfaces, design systems, and brand experiences for forward-thinking products and studios.
+          <div className="flex flex-col lg:items-end gap-3 lg:max-w-[420px] pb-1">
+            <p className="text-sm sm:text-base leading-relaxed text-neutral-600 font-normal lg:text-right">
+              A developer who can't leave a problem alone. I get a little obsessed with how things work and why they feel the way they do, and I'm only happy when I understand something well enough to build it properly. I like clean ideas, fast software, and work that has a point of view.
             </p>
+
+            {/* High-contrast infinite scrolling availability ticker */}
+            <div
+              className="w-full max-w-[340px] sm:max-w-[380px] bg-black text-white overflow-hidden py-1.5 px-3 select-none"
+              title="Open to freelance projects and full-time roles"
+            >
+              <span className="sr-only">Open to freelance projects and full-time roles</span>
+              <div aria-hidden="true" className="overflow-hidden flex w-full">
+                <div className="animate-marquee flex items-center whitespace-nowrap text-[11px] sm:text-xs font-mono uppercase tracking-wider text-neutral-200">
+                  <span className="flex items-center gap-2.5 pr-2.5">
+                    <span>Open to freelance projects & full-time roles</span>
+                    <span className="text-neutral-500 font-bold">•</span>
+                  </span>
+                  <span className="flex items-center gap-2.5 pr-2.5">
+                    <span>Open to freelance projects & full-time roles</span>
+                    <span className="text-neutral-500 font-bold">•</span>
+                  </span>
+                  <span className="flex items-center gap-2.5 pr-2.5">
+                    <span>Open to freelance projects & full-time roles</span>
+                    <span className="text-neutral-500 font-bold">•</span>
+                  </span>
+                  <span className="flex items-center gap-2.5 pr-2.5">
+                    <span>Open to freelance projects & full-time roles</span>
+                    <span className="text-neutral-500 font-bold">•</span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
