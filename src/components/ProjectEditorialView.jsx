@@ -40,7 +40,7 @@ export default function ProjectEditorialView({ project }) {
   };
 
   // Palette & Theme tokens based on archetype
-  const bgClass = isExperiment ? "bg-[#0e0e10] text-[#f2f2f2]" : "bg-[#F4F4F2] text-[#171717]";
+  const bgClass = isExperiment ? "bg-canvas-dark text-ink-dark" : "bg-canvas text-ink";
   const selectionClass = isExperiment ? "selection:bg-white selection:text-black" : "selection:bg-black selection:text-white";
   const mutedTextClass = isExperiment ? "text-neutral-400" : "text-neutral-500";
   const bodyTextClass = isExperiment ? "text-neutral-300" : "text-neutral-600";

@@ -494,13 +494,13 @@ useEffect(() => {
 }, []);
 
   return (
-    <main ref={driverRef} className="relative min-h-screen w-full overflow-x-hidden bg-white text-black selection:bg-black selection:text-white lg:h-screen lg:w-screen lg:overflow-x-hidden lg:overflow-y-auto">
+    <main ref={driverRef} className="relative min-h-screen w-full overflow-x-hidden bg-canvas text-ink selection:bg-black selection:text-white lg:h-screen lg:w-screen lg:overflow-x-hidden lg:overflow-y-auto">
       {/* ================= FIXED NAVBAR: ONLY HOME IN TOP LEFT ================= */}
       <nav className="fixed top-4 sm:top-5 left-4 sm:left-12 z-[1000] select-none">
         <Link
           href="/"
           data-transition-label="HOME"
-          className="hidden lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700 border-y border-black p-2  uppercase cursor-pointer"
+          className="hidden lg:inline-flex items-center gap-2 text-xs sm:text-sm font-bold tracking-[0.2em] text-neutral-700 border-y border-ink p-1.5 uppercase cursor-pointer"
         >
           <span className="hover:opacity-60 transition-opacity">←</span>
           <KineticText className="hover:opacity-60 transition-opacity" text="HOME" />
@@ -517,7 +517,7 @@ useEffect(() => {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* ----------------- SECTION 1: HERO (01) ----------------- */}
-        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 flex flex-col justify-between p-5 sm:p-10 lg:p-8 bg-white">
+        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 flex flex-col justify-between p-5 sm:p-10 lg:p-8 bg-canvas text-ink">
           {/* Top Info Bar */}
           <div className="w-full flex items-center justify-end z-20">
             <div className="flex items-center gap-3 sm:gap-8">
@@ -526,7 +526,7 @@ useEffect(() => {
               >
                 A LITTLE RUN THROUGH MY MIND
               </span>
-              <div className="bg-black text-white px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-sm text-[11px] sm:text-xs font-medium tracking-wider tabular-nums min-w-[62px] min-h-[22px] flex items-center justify-center text-center">
+              <div className="bg-ink text-canvas px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-sm text-[11px] sm:text-xs font-medium tracking-wider tabular-nums min-w-[62px] min-h-[22px] flex items-center justify-center text-center">
                 <LocalTime />
               </div>
             </div>
@@ -540,7 +540,7 @@ useEffect(() => {
           {/* Center Main Stage Typography */}
           <div className="relative my-auto flex flex-col items-center justify-center text-center py-6 sm:py-8 z-10">
             {/* Floating graphic circle above-right */}
-            <div className="absolute -top-6 sm:-top-10 right-[15%] sm:right-[22%] w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black " />
+            <div className="absolute -top-6 sm:-top-10 right-[15%] sm:right-[22%] w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-ink " />
 
             {/* Small label above headline */}
             <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-800 uppercase cursor-default">
@@ -548,7 +548,7 @@ useEffect(() => {
             </span>
 
             {/* Giant Monumental Headline with Masked Slide-Up */}
-            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight leading-[0.88] text-black uppercase">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight leading-[0.88] text-ink uppercase">
               <span className="block overflow-hidden">
                 <span className="inline-block animate-mask-slide-up [animation-delay:80ms]">
                   MULTI–
@@ -578,7 +578,7 @@ useEffect(() => {
           <div className="w-full flex items-center justify-between z-20 pt-4">
             <div className="w-24">
               <span 
-              className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase cursor-pointer hover:text-black transition-colors">
+              className="text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] text-neutral-400 uppercase cursor-pointer hover:text-ink transition-colors">
                 Keep going
               </span>
             </div>
@@ -588,15 +588,15 @@ useEffect(() => {
               type="button"
               onClick={scrollToSection2}
               aria-label="Scroll to next section"
-              className="group flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-black hover:bg-black transition-colors cursor-pointer"
+              className="group flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-ink hover:bg-ink transition-colors cursor-pointer"
             >
-              <span className="text-sm sm:text-base group-hover:text-white transition-colors group-hover:translate-x-0.5 transform duration-200">
+              <span className="text-sm sm:text-base group-hover:text-canvas transition-colors group-hover:translate-x-0.5 transform duration-200">
                 →
               </span>
             </button>
 
             <div className="flex w-30"></div>
-            <div className="absolute right-[15%] sm:right-[11%] w-5 h-5 sm:w-10 sm:h-10 rounded-full bg-black " />
+            <div className="absolute right-[15%] sm:right-[11%] w-5 h-5 sm:w-10 sm:h-10 rounded-full bg-ink " />
           </div>
         </section>
 
@@ -621,17 +621,17 @@ useEffect(() => {
         {/* ----------------- SECTION 2: THINGS THAT DON'T MAKE SENSE ----------------- */}
         <section
           ref={section2Ref}
-          className="relative min-h-screen w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden"
+          className="relative min-h-screen w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-border-light bg-canvas text-ink p-5 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden"
         >
           {/* Top Bar: Name + Stacked Index/Approach */}
           <div className="pt-10 sm:pt-16 lg:pt-40 flex-1 min-h-0 flex flex-col">
             <div className="w-full flex items-start justify-between z-20 shrink-0 pb-4 ">
               <div className="flex items-start gap-8 sm:gap-20 pt-1">
-                <span className="text-base sm:text-lg font-medium tracking-tight text-black">
+                <span className="text-base sm:text-lg font-medium tracking-tight text-ink">
                   Shree Nemane
                 </span>
 
-                <div className="flex flex-col text-xs sm:text-sm font-normal text-black leading-tight">
+                <div className="flex flex-col text-xs sm:text-sm font-normal text-ink leading-tight">
                   <span>Index</span>
                   <span>Approach</span>
                 </div>
@@ -648,7 +648,7 @@ useEffect(() => {
               >
                 {/* Mobile title */}
                 <div className="lg:hidden shrink-0 text-left select-none pb-8">
-                  <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-black leading-[0.95]">
+                  <h2 className="text-3xl sm:text-5xl font-medium tracking-tight text-ink leading-[0.95]">
                     Open tabs
                   </h2>
                 </div>
@@ -656,14 +656,14 @@ useEffect(() => {
                 <div className="flex flex-col gap-10 sm:gap-16 lg:gap-28 pt-4 pb-32 sm:pb-24 lg:pb-48">
                   {/* Step 01: Modern Complexity */}
                   <div className="flex items-start gap-6 sm:gap-14">
-                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black shrink-0 w-10 sm:w-20">
+                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink shrink-0 w-10 sm:w-20">
                       01
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
-                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
+                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink leading-tight">
                         Build the boring parts properly.
                       </h3>
-                      <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                      <p className="text-xs sm:text-sm text-ink leading-relaxed font-normal">
                         Forms, error messages, empty states, and loading screens are where people decide whether a product cares about them. Nobody shows these off, and they're the first thing users notice when they go wrong. I give them the same attention as the homepage.
                         </p>
                     </div>
@@ -671,14 +671,14 @@ useEffect(() => {
 
                   {/* Step 02: Sterile Uniformity */}
                   <div className="flex items-start gap-6 sm:gap-14">
-                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black shrink-0 w-10 sm:w-20">
+                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink shrink-0 w-10 sm:w-20">
                       02
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
-                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
+                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink leading-tight">
                         Complexity is easy. Simplicity is the hard part.
                       </h3>
-                      <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                      <p className="text-xs sm:text-sm text-ink leading-relaxed font-normal">
                         Adding is easy. More layers, more animations, more features, more color: it all feels like making the design better. But after building several websites and apps, I've learned that people care about how easy something is to understand, not how much it shows off. The designs that scream for attention from every side usually end up confusing people more than helping them. Simple is harder to make, and it's the part users actually feel.
                         </p>
                     </div>
@@ -686,14 +686,14 @@ useEffect(() => {
 
                   {/* Step 03: Invisible Craft */}
                   <div className="flex items-start gap-6 sm:gap-14">
-                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black shrink-0 w-10 sm:w-20">
+                    <span className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink shrink-0 w-10 sm:w-20">
                       03
                     </span>
                     <div className="flex flex-col gap-3 max-w-xl">
-                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-black leading-tight">
+                      <h3 className="text-2xl sm:text-4xl lg:text-6xl font-medium tracking-tight text-ink leading-tight">
                         Have an opinion.
                       </h3>
-                      <p className="text-xs sm:text-sm text-black leading-relaxed font-normal">
+                      <p className="text-xs sm:text-sm text-ink leading-relaxed font-normal">
                         Every product is competing for the same attention, and most answer by doing the same things: more features, cleaner UI, trendier styles. The result is a web where everything is good and nothing is memorable. Design shines when it stops trying to match the field and starts showing what's different about the thing it's presenting.
                         </p>
                     </div>
@@ -705,7 +705,7 @@ useEffect(() => {
           </div>
           {/* Right Part: Stagnant Title (Desktop) */}
           <div className="absolute top-10 right-10 hidden lg:flex w-[44%] shrink-0 justify-end text-right select-none pointer-events-none self-start">
-            <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] xl:text-[7.5rem] font-medium tracking-tight text-black leading-[0.92]">
+            <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] xl:text-[7.5rem] font-medium tracking-tight text-ink leading-[0.92]">
                Open tabs
             </h2>
           </div>
@@ -717,20 +717,20 @@ useEffect(() => {
         {/* ----------------- SECTION 3: Smudge Revealer ----------------- */}
         <section
           ref={heroRef}
-          className="hero relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 overflow-hidden"
+          className="hero relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-border-light overflow-hidden"
         >
-          <div className="absolute bg-white top-0 left-0 w-full h-full text-center flex flex-col items-center justify-center select-none p-6 sm:p-12">
+          <div className="absolute bg-canvas text-ink top-0 left-0 w-full h-full text-center flex flex-col items-center justify-center select-none p-6 sm:p-12">
             <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-500 uppercase mb-4 sm:mb-6">
               [ CAUTION ]
             </span>
-            <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight text-black uppercase leading-[0.92]">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight text-ink uppercase leading-[0.92]">
               Do not wipe<br />this screen.
             </h2>
           </div>
 
           <div
             style={{ mask: "url(#smudge-mask)", WebkitMask: "url(#smudge-mask)" }}
-            className="absolute bg-black text-white top-0 left-0 w-full h-full text-center flex flex-col justify-center items-center select-none p-6 sm:p-12"
+            className="absolute bg-canvas-dark text-ink-dark top-0 left-0 w-full h-full text-center flex flex-col justify-center items-center select-none p-6 sm:p-12"
           >
             <div className="max-w-2xl sm:max-w-3xl lg:max-w-4xl flex flex-col items-center gap-4 sm:gap-6">
               <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-400 uppercase">
@@ -764,7 +764,7 @@ useEffect(() => {
         </section>
 
         {/* ----------------- SECTION 4: OUTRO (THE DIRECT ACTION FINALE) ----------------- */}
-        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-neutral-200 bg-white text-black flex flex-col justify-between p-6 sm:p-12 lg:p-16 overflow-hidden select-none">
+        <section className="relative min-h-screen min-h-[100dvh] w-full lg:h-screen lg:w-screen shrink-0 border-t lg:border-t-0 lg:border-l border-border-light bg-canvas text-ink flex flex-col justify-between p-6 sm:p-12 lg:p-16 overflow-hidden select-none">
           {/* Top Index Tag */}
           <div className="w-full flex items-center justify-end text-[11px] sm:text-xs font-semibold tracking-[0.2em] text-neutral-500 uppercase z-10">
             <span>ARCHIVE CONCLUDED</span>
@@ -772,7 +772,7 @@ useEffect(() => {
 
           {/* Center Stage: Concluding Statement + Direct Actions */}
           <div className="my-auto max-w-4xl w-full mx-auto flex flex-col items-center text-center py-8 z-10">
-            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-black leading-[1.08] mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-ink leading-[1.08] mb-6 sm:mb-8">
               That&apos;s the whole site.<br />
               If something here sparked an idea,<br />
               tell me about it.
@@ -782,7 +782,7 @@ useEffect(() => {
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-2">
               <a
                 href="mailto:shreenemane06@gmail.com?subject=Project%20Idea"
-                className="bg-black text-white hover:bg-neutral-800 active:scale-95 transition-all rounded-full px-6 sm:px-8 py-3 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
+                className="bg-ink text-canvas hover:opacity-90 active:scale-95 transition-all rounded-full px-6 sm:px-8 py-3 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
               >
                 <span>Tell Me About It</span>
                 <span>→</span>
@@ -792,7 +792,7 @@ useEffect(() => {
                 type="button"
                 onClick={scrollToTop}
                 aria-label="Scroll back to the beginning"
-                className="group inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-600 hover:text-black border border-neutral-300 hover:border-black rounded-full px-5 py-3 transition-colors cursor-pointer"
+                className="group inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-neutral-600 hover:text-ink border border-border-light hover:border-ink rounded-full px-5 py-3 transition-colors cursor-pointer"
               >
                 <span>↑</span>
                 <span>Back to Start</span>

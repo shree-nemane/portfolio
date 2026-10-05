@@ -12,7 +12,7 @@ import { projects } from "../data/projects";
  */
 export default function Home() {
   return (
-    <main className="relative min-h-screen w-full flex flex-col justify-between bg-[#F4F4F2] text-[#171717] overflow-x-hidden selection:bg-black selection:text-white">
+    <main className="relative min-h-screen w-full flex flex-col justify-between bg-canvas text-ink overflow-x-hidden selection:bg-black selection:text-white">
       {/* Top Header Navigation */}
       <Navbar theme="light" active="home" />
 
@@ -55,11 +55,11 @@ export default function Home() {
               {/* Standing illustration standing right on top of the name */}
               <div className="absolute bottom-full left-1 sm:left-3 md:left-5 -mb-0.5 sm:-mb-1 z-10 pointer-events-none select-none">
                 <Image
-                  src="/shree-standing.png"
+                  src="/shree-standing.webp"
                   alt="Shree Nemane standing"
-                  width={344}
+                  width={126}
                   height={344}
-                  priority
+                  sizes="(min-width: 1024px) 126px, (min-width: 768px) 94px, (min-width: 640px) 76px, 53px"
                   className="h-36 sm:h-52 md:h-64 lg:h-[344px] w-auto object-contain drop-shadow-xs"
                 />
               </div>

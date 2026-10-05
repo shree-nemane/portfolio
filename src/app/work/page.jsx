@@ -50,7 +50,7 @@ export default function WorkPage() {
   ];
 
   return (
-    <main className="min-h-screen w-full flex flex-col justify-between bg-[#0e0e10] text-[#f2f2f2] selection:bg-white selection:text-black">
+    <main className="min-h-screen w-full flex flex-col justify-between bg-canvas-dark text-ink-dark selection:bg-white selection:text-black">
       {/* Top Header Navigation */}
       <Navbar theme="dark" active="work" />
 
@@ -86,7 +86,7 @@ export default function WorkPage() {
               href="https://github.com/shree-nemane"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
+              className="border-y border-white p-0.5 hover:text-white transition-colors duration-150"
             >
               GitHub
             </a>
@@ -94,13 +94,13 @@ export default function WorkPage() {
               href="https://www.linkedin.com/in/shreedarshan-nemane-455417329"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors duration-150"
+              className="border-y border-white p-0.5 hover:text-white transition-colors duration-150"
             >
               LinkedIn
             </a>
             <a
               href="mailto:shreenemane06@gmail.com"
-              className="hover:text-white transition-colors duration-150"
+              className="border-y border-white p-0.5 hover:text-white transition-colors duration-150"
             >
               Email
             </a>
@@ -111,7 +111,7 @@ export default function WorkPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-14 pt-2 w-full">
           {/* Left Column: Products */}
           <div className="flex flex-col gap-4 max-w-xl">
-            <div className="flex items-center justify-between pb-1 border-b border-white/10">
+            <div className="flex items-center justify-between pb-1 border-b border-border-dark">
               <h3 className="text-sm sm:text-base font-semibold tracking-tight text-white">
                 Products
               </h3>
@@ -122,12 +122,12 @@ export default function WorkPage() {
                   key={idx}
                   href={`/work/${item.slug}`}
                   data-transition-label={item.title.toUpperCase()}
-                  className="py-2.5 flex items-center justify-between text-xs sm:text-[13px] group hover:text-white transition-colors cursor-pointer"
+                  className="py-2.5 flex items-center justify-between text-xs sm:text-[14px] group hover:text-white transition-colors cursor-pointer"
                 >
                   <span className="text-neutral-300 group-hover:text-white font-normal transition-colors">
                     {item.title}
                   </span>
-                  <span className="text-neutral-500 group-hover:text-neutral-400 text-[11px] transition-colors">
+                  <span className="text-neutral-500 group-hover:text-neutral-400 text-[12px] transition-colors">
                     {item.type} ↗
                   </span>
                 </Link>
@@ -137,16 +137,16 @@ export default function WorkPage() {
 
           {/* Right Column: Skills */}
           <div className="flex w-full flex-col justify-start gap-4 max-w-xl justify-self-end">
-            <div className="flex items-center justify-between pb-1 border-b border-white/10">
+            <div className="flex items-center justify-between pb-1 border-b border-border-dark">
               <h3 className="text-sm sm:text-base font-semibold tracking-tight text-white">
                 Skills
               </h3>
             </div>
             <div className="flex flex-col divide-y divide-white/5">
               {skills.map((item, idx) => (
-                <div key={idx} className="py-2.5 flex items-center justify-between text-xs sm:text-[13px]">
+                <div key={idx} className="py-2.5 flex items-center justify-between text-xs sm:text-[14px]">
                   <span className="text-neutral-300 font-normal">{item.skill}</span>
-                  <span className="text-neutral-500 text-[11px]">{item.tech}</span>
+                  <span className="text-neutral-500 text-[12px]">{item.tech}</span>
                 </div>
               ))}
             </div>
@@ -154,7 +154,7 @@ export default function WorkPage() {
         </section>
 
         {/* Selected Projects Grid */}
-        <section className="flex flex-col gap-6 pt-6 border-t border-white/10">
+        <section className="flex flex-col gap-6 pt-6 border-t border-border-dark">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div className="flex flex-col gap-1">
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -174,15 +174,15 @@ export default function WorkPage() {
                 data-transition-label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
-                <div className="flex p-2 border border-white/20">
+                <div className="flex p-2 border border-border-dark">
                   <ParallaxCard
                   imageSrc={resolveAsset(project.logo || project.image)}
                   imageAlt={project.alt || project.shortTitle || project.title}
-                  className={`aspect-3/2 w-full border border-white/10 ${project.cardBg || "bg-white"}`}
+                  className={`aspect-3/2 w-full border border-border-dark ${project.cardBg || "bg-white"}`}
                   imgClassName="object-contain p-4 sm:p-6"
                 >
                   {/* Bottom Box Overlay - visible only on hover */}
-                  <div className="absolute bottom-0 w-full p-2 sm:p-2.5 bg-black/85 backdrop-blur-md border border-white/15 flex flex-col gap-0.5 shadow-lg opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-400 pointer-events-none">
+                  <div className="absolute bottom-0 w-full p-2 sm:p-2.5 bg-black/85 backdrop-blur-md border border-border-dark flex flex-col gap-0.5 shadow-lg opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-400 pointer-events-none">
                     <div className="flex items-center justify-between gap-1.5">
                       <span className="text-[12px] sm:text-[13px] font-medium text-white truncate leading-tight">
                         {project.title}
@@ -204,7 +204,7 @@ export default function WorkPage() {
         </section>
 
         {/* Experiments Grid */}
-        <section className="flex flex-col gap-6 pt-6 border-t border-white/10">
+        <section className="flex flex-col gap-6 pt-6 border-t border-border-dark">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div className="flex flex-col gap-1">
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
@@ -224,15 +224,15 @@ export default function WorkPage() {
                 data-transition-label={project.title.toUpperCase()}
                 className="block shadow-sm"
               >
-                <div className="flex p-2 border border-white/20">
+                <div className="flex p-2 border border-border-dark">
                 <ParallaxCard
                   imageSrc={resolveAsset(project.logo || project.image)}
                   imageAlt={project.alt || project.shortTitle || project.title}
-                  className={`aspect-3/2 w-full border border-white/10 ${project.cardBg || "bg-neutral-900"}`}
+                  className={`aspect-3/2 w-full border border-border-dark ${project.cardBg || "bg-neutral-900"}`}
                   imgClassName="object-cover"
                 >
                   {/* Bottom Box Overlay - visible only on hover */}
-                  <div className="absolute bottom-0 w-full p-2 sm:p-2.5 bg-black/85 backdrop-blur-md border border-white/15 flex flex-col gap-0.5 shadow-lg opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-400 pointer-events-none">
+                  <div className="absolute bottom-0 w-full p-2 sm:p-2.5 bg-black/85 backdrop-blur-md border border-border-dark flex flex-col gap-0.5 shadow-lg opacity-0 group-hover:opacity-100 translate-y-1.5 group-hover:translate-y-0 transition-all duration-400 pointer-events-none">
                     <div className="flex items-center justify-between gap-1.5">
                       <span className="text-[12px] sm:text-[13px] font-medium text-white truncate leading-tight">
                         {project.title}

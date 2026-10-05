@@ -3,12 +3,32 @@
 @theme {
   --font-sans: var(--font-plus-jakarta), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --color-canvas: #F4F4F2;
+
+  /* Centralized Global Theme Color Palette */
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --color-canvas-dark: var(--canvas-dark);
+  --color-surface-dark: var(--surface-dark);
+  --color-ink-dark: var(--ink-dark);
+  --color-border-light: var(--border-light);
+  --color-border-dark: var(--border-dark);
 }
 
 :root {
-  --background: #F4F4F2;
-  --foreground: #171717;
+  /* Unified Light Theme (Warm Gallery Stone Paper & Deep Obsidian Ink) */
+  --canvas: #F4F4F2;
+  --ink: #111111;
+  --border-light: rgba(17, 17, 17, 0.12);
+
+  /* Unified Dark Theme (Deep Obsidian Canvas, Elevated Cards, and Silver Ink) */
+  --canvas-dark: #0C0C0E;
+  --surface-dark: #141416;
+  --ink-dark: #F4F4F2;
+  --border-dark: rgba(244, 244, 242, 0.12);
+
+  /* Default Viewport Background & Foreground */
+  --background: var(--canvas);
+  --foreground: var(--ink);
 }
 
 body {
@@ -35,22 +55,25 @@ body {
 
 @keyframes rhythmBar {
   0%, 100% {
-    height: 4px;
+    transform: scaleY(0.14);
     opacity: 0.25;
   }
   50% {
-    height: 28px;
+    transform: scaleY(1);
     opacity: 1;
   }
 }
 
 .rhythm-bar {
   display: inline-block;
+  height: 28px;
+  transform-origin: bottom;
   background-color: #ffffff;
   animation-name: rhythmBar;
   animation-duration: 0.75s;
   animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
   animation-iteration-count: infinite;
+  will-change: transform, opacity;
 }
 
 .rhythm-bar:nth-child(1) {

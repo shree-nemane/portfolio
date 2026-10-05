@@ -296,7 +296,7 @@ export function PageTransitionProvider({ children }) {
         {/* Top Shutter Card (Slides down to 50vh) */}
         <div
           ref={topBlockRef}
-          className="fixed top-0 left-0 right-0 h-[calc(50vh+1px)] bg-[#0c0c0c] text-white flex flex-col justify-end items-center pb-3 sm:pb-4 border-b border-white/[0.06] will-change-transform"
+          className="fixed top-0 left-0 right-0 h-[calc(50vh+1px)] bg-canvas-dark text-white flex flex-col justify-end items-center pb-3 sm:pb-4 border-b border-white/[0.06] will-change-transform"
         >
           <span className="text-[11px] sm:text-xs font-semibold tracking-[0.28em] text-neutral-400 uppercase select-none">
             MOVING TO
@@ -306,7 +306,7 @@ export function PageTransitionProvider({ children }) {
         {/* Bottom Shutter Card (Slides up to 50vh) */}
         <div
           ref={bottomBlockRef}
-          className="fixed bottom-0 left-0 right-0 h-[calc(50vh+1px)] bg-[#0c0c0c] text-white flex flex-col justify-start items-center pt-3 sm:pt-4 border-t border-white/[0.06] will-change-transform"
+          className="fixed bottom-0 left-0 right-0 h-[calc(50vh+1px)] bg-canvas-dark text-white flex flex-col justify-start items-center pt-3 sm:pt-4 border-t border-white/[0.06] will-change-transform"
         >
           <span
             ref={labelRef}
@@ -320,9 +320,9 @@ export function PageTransitionProvider({ children }) {
             aria-hidden="true"
             className="absolute bottom-6 sm:bottom-8 right-6 sm:right-10 flex items-end gap-1 h-8 pointer-events-none select-none"
           >
-            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0s" }} />
-            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0.18s" }} />
-            <span className="rhythm-bar md:w-[12px] sm:w-[8px]" style={{ animationDelay: "0.36s" }} />
+            <span className="rhythm-bar w-[6px] sm:w-[8px] md:w-[12px]" style={{ animationDelay: "0s" }} />
+            <span className="rhythm-bar w-[6px] sm:w-[8px] md:w-[12px]" style={{ animationDelay: "0.18s" }} />
+            <span className="rhythm-bar w-[6px] sm:w-[8px] md:w-[12px]" style={{ animationDelay: "0.36s" }} />
           </div>
         </div>
       </div>

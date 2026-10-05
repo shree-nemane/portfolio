@@ -24,7 +24,7 @@ export const metadata = {
  */
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen w-full flex flex-col justify-between bg-[#0c0c0c] text-white selection:bg-white selection:text-black">
+    <main className="min-h-screen w-full flex flex-col justify-between bg-canvas-dark text-white selection:bg-white selection:text-black">
       {/* Top Header Navigation */}
       <Navbar theme="dark" active="services" />
       
@@ -45,11 +45,11 @@ export default function ServicesPage() {
         </h1>
 
         {/* Services Rows List */}
-        <div className="w-full border-t border-white/15">
+        <div className="w-full border-t border-border-dark">
           {services.map((service) => (
             <div
               key={service.id}
-              className="group border-b border-white/15 py-8 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-12 items-start transition-colors duration-200 hover:bg-white/[0.02] px-2 sm:px-4"
+              className="group border-b border-border-dark py-8 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-12 items-start transition-colors duration-200 hover:bg-white/[0.02] px-2 sm:px-4"
             >
               {/* Category Title */}
               <div className="lg:col-span-6">
@@ -127,7 +127,7 @@ export default function ServicesPage() {
                 href="https://github.com/shree-nemane"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-white border border-white/20 hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
+                className="text-neutral-400 hover:text-white border border-border-dark hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
               >
                 GitHub ↗
               </a>
@@ -135,7 +135,7 @@ export default function ServicesPage() {
                 href="https://www.linkedin.com/in/shreedarshan-nemane-455417329"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-400 hover:text-white border border-white/20 hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
+                className="text-neutral-400 hover:text-white border border-border-dark hover:border-white/50 rounded-full px-4 py-2 text-xs font-medium tracking-wide transition-colors"
               >
                 LinkedIn ↗
               </a>

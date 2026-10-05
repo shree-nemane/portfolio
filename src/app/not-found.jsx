@@ -4,7 +4,7 @@ import KineticText from "../components/KineticText";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen w-full flex flex-col justify-between bg-[#0c0c0c] text-white p-6 sm:p-12 selection:bg-white selection:text-black">
+    <main className="min-h-screen w-full flex flex-col justify-between bg-canvas-dark text-white p-6 sm:p-12 selection:bg-white selection:text-black">
       {/* Top Header */}
       <div className="w-full flex items-center justify-between text-xs font-semibold tracking-[0.2em] text-neutral-400 uppercase select-none">
         <span>[ ERROR · 404 ]</span>
