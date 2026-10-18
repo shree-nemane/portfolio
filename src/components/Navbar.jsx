@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { id: "work", label: "Work", href: "/work", transitionLabel: "WORK GALLERY" },
   { id: "services", label: "Services", href: "/services", transitionLabel: "SERVICES" },
   { id: "about", label: "About", href: "/about", transitionLabel: "ABOUT ME" },
-  { id: "contact", label: "Contact", href: "mailto:shreenemane06@gmail.com" },
+  { id: "contact", label: "Contact", href: "/contact", transitionLabel: "CONTACT" },
 ];
 
 export const MOBILE_NAV_ITEMS = [
@@ -18,6 +18,7 @@ export const MOBILE_NAV_ITEMS = [
   { id: "work", label: "Work", href: "/work", transitionLabel: "WORK GALLERY" },
   { id: "services", label: "Services", href: "/services", transitionLabel: "SERVICES" },
   { id: "about", label: "About", href: "/about", transitionLabel: "ABOUT ME" },
+  { id: "contact", label: "Contact", href: "/contact", transitionLabel: "CONTACT" },
 ];
 
 /**
@@ -146,12 +147,13 @@ export default function Navbar({
 
           {/* Book a call button */}
           <div className="flex items-center justify-end">
-            <a
-              href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
+            <Link
+              href="/contact"
+              data-transition-label="CONTACT"
               className={buttonClasses}
             >
-            Book a call
-            </a>
+              Book a call
+            </Link>
           </div>
         </div>
       </header>

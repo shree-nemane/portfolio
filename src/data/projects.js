@@ -105,7 +105,7 @@ export const projects = [
       "A multilingual corporate website for Yajurved Construction Pvt. Ltd., presenting the company's real estate investment, construction, redevelopment, financial consultancy, property documentation, and litigation consultancy services.",
     logo: "/work-assets/yajurved_construction.png",
     cardBg: "bg-white",
-    image: "/work-slug-assets/yajurved-construction-ui.jpg",
+    image: "/work-slug-assets/yajurved-ui.webp",
     alt: "",
     discipline: "REAL ESTATE & CONSTRUCTION WEBSITE",
     metrics: [
@@ -145,9 +145,9 @@ export const projects = [
     role: "Android Developement & Backend Engineering",
     client: "Personal Project",
     repoUrl:'https://github.com/shree-nemane/SIT',
-    tagline: "Relationship Management and Intentional Connection Platform",
+    tagline: "Intentional Connection Platform",
     description:
-      "Stay In Touch is a relationship-focused application designed to help users organize meaningful connections and maintain regular contact with friends, family, and important people in their lives.",
+      "Stay In Touch is a application designed to help users organize meaningful connections and maintain regular contact with friends, family, and important people in their lives.",
     logo: "/work-assets/stay_in_touch.png",
     cardBg: "bg-white",
     image: "/work-slug-assets/sit-ui.webp",
@@ -176,7 +176,7 @@ export const projects = [
     challenge:
       "People often struggle to consistently maintain important personal relationships because conversations, follow-ups, and meaningful details can be difficult to organize over time.",
     solution:
-      "We developed a relationship management application intended to help users keep track of personal connections, organize relationship information, and support more intentional communication.",
+      "We developed a application intended to help users keep track of personal connections, organize relationship information, and support more intentional communication.",
   },
   {
   id: "herdhelp",

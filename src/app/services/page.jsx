@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import { services } from "../../data/services";
 
@@ -33,10 +34,9 @@ export default function ServicesPage() {
       <div className="w-full max-w-7xl mx-auto px-5 sm:px-12 py-12 sm:py-20 md:py-24 flex flex-col flex-1 justify-center">
         {/* Section Tag */}
         <div className="flex items-center gap-4 lg:mb-6 sm:mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 inline-block" />
-          <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] text-neutral-400 uppercase">
-            SERVICES
-          </span>
+          <div className="flex items-center gap-2.5 text-[12px] tracking-[0.24em] text-neutral-500 uppercase select-none">
+              <span>[ SERVICE ]</span>
+            </div>
         </div>
 
         {/* Headline */}
@@ -106,23 +106,26 @@ export default function ServicesPage() {
 
           {/* Action Row */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pt-2">
-            {/* Direct Email */}
-            <a
-              href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
-              className="text-base sm:text-xl md:text-2xl font-medium text-neutral-300 hover:text-white transition-colors underline decoration-neutral-700 hover:decoration-white underline-offset-8 break-all sm:break-normal"
+            {/* Lead to Contact Page */}
+            <Link
+              href="/contact"
+              data-transition-label="CONTACT"
+              className="text-base sm:text-xl md:text-2xl font-medium text-neutral-300 hover:text-white transition-colors underline decoration-neutral-700 hover:decoration-white underline-offset-8 break-all sm:break-normal inline-flex items-center gap-2 group"
             >
-              Contact at: shreenemane06@gmail.com
-            </a>
+              <span>Have an idea? Let&apos;s talk</span>
+              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5 font-light">→</span>
+            </Link>
 
             {/* CTA & Channels */}
             <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <a
-                href="mailto:shreenemane06@gmail.com?subject=Project%20Inquiry"
+              <Link
+                href="/contact"
+                data-transition-label="CONTACT"
                 className="bg-white text-neutral-950 hover:bg-neutral-200 active:scale-95 transition-all rounded-full px-5 py-2.5 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
               >
                 <span>Start a Project</span>
                 <span>→</span>
-              </a>
+              </Link>
               <a
                 href="https://github.com/shree-nemane"
                 target="_blank"

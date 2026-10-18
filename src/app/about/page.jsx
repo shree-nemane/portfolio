@@ -540,15 +540,15 @@ useEffect(() => {
           {/* Center Main Stage Typography */}
           <div className="relative my-auto flex flex-col items-center justify-center text-center py-6 sm:py-8 z-10">
             {/* Floating graphic circle above-right */}
-            <div className="absolute -top-6 sm:-top-10 right-[15%] sm:right-[22%] w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-ink " />
+            {/* <div className="absolute -top-6 sm:-top-10 right-[15%] sm:right-[22%] w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-ink " /> */}
 
             {/* Small label above headline */}
-            <span className="text-[10px] sm:text-xs font-semibold tracking-[0.22em] text-neutral-800 uppercase cursor-default">
-              SN
-            </span>
+            <div className="flex items-center gap-2.5 text-[12px] tracking-[0.24em] text-neutral-500 uppercase select-none">
+              <span>[ ABOUT ]</span>
+            </div>
 
             {/* Giant Monumental Headline with Masked Slide-Up */}
-            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight leading-[0.88] text-ink uppercase">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] font-bold tracking-tight leading-[0.88] text-ink uppercase">
               <span className="block overflow-hidden">
                 <span className="inline-block animate-mask-slide-up [animation-delay:80ms]">
                   MULTI–
@@ -595,8 +595,8 @@ useEffect(() => {
               </span>
             </button>
 
-            <div className="flex w-30"></div>
-            <div className="absolute right-[15%] sm:right-[11%] w-5 h-5 sm:w-10 sm:h-10 rounded-full bg-ink " />
+            {/* <div className="flex w-30"></div> */}
+            {/* <div className="absolute right-[15%] sm:right-[11%] w-5 h-5 sm:w-10 sm:h-10 rounded-full bg-ink " /> */}
           </div>
         </section>
 
@@ -607,10 +607,11 @@ useEffect(() => {
           <div className="relative h-full w-full">
             <div className="absolute inset-0">
               <Image
-                src="/intro-book-tilted.webp"
+                src="/intro-book-effect.webp"
                 alt="Book"
                 width={1920}
-                height={1080}
+                height={1280}
+                sizes="100vw"
                 priority
                 className="h-full w-full object-cover"
               />
@@ -780,13 +781,14 @@ useEffect(() => {
 
             {/* Direct Action Cluster */}
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-2">
-              <a
-                href="mailto:shreenemane06@gmail.com?subject=Project%20Idea"
+              <Link
+                href="/contact"
+                data-transition-label="CONTACT"
                 className="bg-ink text-canvas hover:opacity-90 active:scale-95 transition-all rounded-full px-6 sm:px-8 py-3 text-xs sm:text-sm font-semibold tracking-wide inline-flex items-center gap-2 cursor-pointer shadow-2xs"
               >
                 <span>Tell Me About It</span>
                 <span>→</span>
-              </a>
+              </Link>
 
               <button
                 type="button"

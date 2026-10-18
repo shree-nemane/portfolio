@@ -61,7 +61,7 @@ export default function WorkPage() {
           <div className="flex flex-col gap-1">
             <p className="text-xl sm:text-3xl md:text-4xl text-white font-semibold ">
               <span className="block overflow-hidden">
-                <span className="inline-block animate-mask-slide-up [animation-delay:80ms]">
+                <span className="inline-block py-1 animate-mask-slide-up [animation-delay:80ms]">
                   ^_^ Always find something to confuse me 
                 </span>
               </span>
@@ -70,11 +70,11 @@ export default function WorkPage() {
 
           {/* About narrative */}
           <div className="flex flex-col gap-3 items-end">
-            <h2 className="text-xs font-semibold tracking-widest text-neutral-400 uppercase">
-              <span className="text-white text-lg">&#91; </span>
-              <KineticText text="Work" />
-              <span className="text-white text-lg"> &#93;</span>
-            </h2>
+            <div className="flex items-center gap-2.5 text-[12px] tracking-[0.24em] text-neutral-500 uppercase select-none">
+              <span>[ 
+                WORK 
+                ]</span>
+            </div>
             <p className="text-sm sm:text-base text-end leading-relaxed text-neutral-300 font-normal max-w-xl">
               Every project here is something I designed, built, and shipped, from business websites and a mobile app to a desktop tool and a machine learning system. Some earn money for their owners, others are experiments I couldn't stop thinking about. Open any card to see the problem, what I built, and how it turned out.
               </p>
@@ -98,12 +98,13 @@ export default function WorkPage() {
             >
               LinkedIn
             </a>
-            <a
-              href="mailto:shreenemane06@gmail.com"
+            <Link
+              href="/contact"
+              data-transition-label="CONTACT"
               className="border-y border-white p-0.5 hover:text-white transition-colors duration-150"
             >
-              Email
-            </a>
+              Contact
+            </Link>
           </div>
         </section>
 
