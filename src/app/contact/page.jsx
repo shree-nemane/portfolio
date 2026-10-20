@@ -61,7 +61,7 @@ export default function ContactPage() {
             </h1>
 
             <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans max-w-sm pt-1">
-              New trends and evolving digital experiences are the driving force that pushes me forward. I welcome all forms of design collaboration, no matter the location or language.
+              Got an idea, a weird little project, or just want to say hi? My inbox is open. Send me a message, and let’s see where the conversation goes.
             </p>
 
             <div className="flex flex-wrap items-center gap-2.5 text-xs font-sans text-neutral-700 pt-1 select-none">
